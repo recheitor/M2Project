@@ -1,0 +1,36 @@
+<h2>Recipe Details</h2>
+<hr>
+<div class="row">
+    <div class="col-12 card text-center mt-3 bg-light pt-3">
+        <h2>{{recipe.title}}</h2>
+        <hr>
+        <p>{{recipe.description}}</p>
+        <div class="row justify-content-center">
+            <div class="col-6 text-start">
+                <ul>
+                    {{#each recipe.ingredients}}
+                    <li>
+                        <h6>{{ingrName}}:{{ingrQuantity}}{{ingrMeasureUnit}}</h6>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="col-6 text-end">
+                <a href="{{recipe.recipeImg}}"><img class='img-responsive w-25' src="{{recipe.recipeImg}}"
+                        alt="recipe pic"></a>
+            </div>
+        </div>
+        <div class="row  text-end">
+            <div class="col-12">
+                {{#if isOwner}}
+                <a href="/recipes/{{recipe._id}}/edit" class=" btn btn-dark">Edit</a>
+                <a href="/recipes/{{recipe._id}}/delete" class="btn btn-danger">Delete</a>
+                {{/if}}
+                {{#each recipe.author}}
+                <h6>Created by: {{username}}</h6>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+    <a href="/recipes" class="btn btn-dark mt-3">Back to recipes</a>
+</div>

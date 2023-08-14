@@ -1,0 +1,12 @@
+<div class="container">
+    <h1>Students list</h1>
+    <hr>
+    <div class="row">
+        {{#each users}}
+        <div class="col-12 mt-3">
+            {{username}}
+            <a href="/user/{{_id}}" class="btn btn-dark">View profile</a>
+            {{/each}}
+        </div>
+    </div>
+</div>

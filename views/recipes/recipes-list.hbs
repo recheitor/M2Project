@@ -1,0 +1,41 @@
+{{#unless myRecipes}}
+<h2>Recipes</h2>
+{{/unless}}
+{{#if myRecipes}}
+<h2>My Recipes</h2>
+{{/if}}
+<hr>
+<div class="row">
+    {{#each recipes}}
+    <div class="col-12 card text-center mt-3 bg-light pt-3">
+        <h2>{{title}}</h2>
+        <hr>
+        <p>{{description}}</p>
+
+        <div class="row justify-content-center">
+            <div class="col-6 text-start">
+                <ul>
+                    {{#each ingredients}}
+                    <li>
+                        <h6>{{ingrName}}:{{ingrQuantity}}{{ingrMeasureUnit}}</h6>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="col-6 text-end">
+                <a href="{{recipeImg}}"><img class='img-responsive w-25' src="{{recipeImg}}" alt="recipe pic"></a>
+            </div>
+        </div>
+        <div class="row text-end">
+            <div class="col-12">
+
+                <a href="/recipes/{{_id}}/details" class=" btn btn-dark">Details</a>
+                <a href="/recipes/{{_id}}/add-favorite" class=" btn btn-dark favorite">Add to favorite</a>
+                {{#each author}}
+                <h6>Created by: {{username}}</h6>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>

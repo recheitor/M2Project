@@ -1,0 +1,35 @@
+<h3>New recipe</h3>
+<hr>
+<div class="row">
+    <form action="/recipes/create" method="POST" enctype="multipart/form-data">
+        <div class="col-6">
+            <label for="title" class="form-label">Nombre</label>
+            <input type="text" id="title" name="title">
+            <br>
+            <label for="recipeImg" class="form-label">Choose photo</label>
+            <input class="form-control form-control-sm mb-3" id="formFileSm" type="file" name="recipeImg">
+        </div>
+        <div class="row">
+            <div class="col-3 ingredientFieldName">
+                <label for="ingrName" class="form-label">Ingredient</label>
+                <input class="mb-2" type="text" id="ingrName" name="ingrName" placeholder="Name">
+            </div>
+            <div class="col-3 ingredientFieldQuantity">
+                <label for="ingrQuantity" class="form-label">Quantity</label>
+                <input class="mb-2" type="text" id="ingrQuantity" name="ingrQuantity" placeholder="Quantity">
+            </div>
+            <div class="col-2 ingredientFieldMeasureUnit">
+                <label for="ingrMeasureUnit" class="form-label">Measure unit</label>
+                <input class="mb-2" type="text" id="ingrMeasureUnit" name="ingrMeasureUnit" placeholder="Unit">
+            </div>
+        </div>
+        <a class="btn btn-dark addButton mt-3 mb-3">+</a>
+        <div class="col-6">
+            <label for="description" class="form-label"></label>
+            <textarea class="form-control" id="description" rows="3" name="description"
+                placeholder="Description"></textarea>
+        </div>
+        <button class="btn btn-info mt-3" type="submit">Create</button>
+    </form>
+</div>
+<script src="/js/recipe.js"></script>

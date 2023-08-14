@@ -1,0 +1,13 @@
+<div class="container">
+    <div class="card ms-5" style="width: 18rem;">
+        <img src="{{user.avatar}}" class="card-img-top" alt="{{user.username}}">
+        <div class="card-body">
+            <h5 class="card-title">{{user.username}}</h5>
+            <p>{{user.bio}}</p>
+            <a class="btn btn-dark" href="/user/{{user._id}}/edit">Edit</a>
+            <form action="/user/{{user._id}}/delete" method="POST">
+                <input class="btn btn-dark mt-3" type="submit" value="Delete">
+            </form>
+        </div>
+    </div>
+</div>
