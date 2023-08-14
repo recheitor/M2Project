@@ -8,6 +8,17 @@ function initMap() {
     autoComplete();
     infowindow = new google.maps.InfoWindow();
 }
+
+
+
+
+
+
+//COMENTARIO TEST
+
+
+
+
 //renderiza la mapa
 function renderMap() {
     myMap = new google.maps.Map(
