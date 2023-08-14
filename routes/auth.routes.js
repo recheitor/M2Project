@@ -7,7 +7,7 @@ const uploaderMiddleware = require('../middlewares/uploader')
 
 const saltRounds = 10
 
-// Signup
+// Signup test
 router.get('/sign-up', isLoggedOut, (req, res, next) => res.render('auth/sign-up'))
 router.post('/sign-up', isLoggedOut, uploaderMiddleware.single('avatar'), (req, res, next) => {
 
