@@ -9,25 +9,37 @@
             <label for="recipeImg" class="form-label">Choose photo</label>
             <input class="form-control form-control-sm mb-3" id="formFileSm" type="file" name="recipeImg">
         </div>
-        <div class="row">
-            <div class="col-3 ingredientFieldName">
-                <label for="ingrName" class="form-label">Ingredient</label>
-                <input class="mb-2" type="text" id="ingrName" name="ingrName" placeholder="Name">
-            </div>
-            <div class="col-3 ingredientFieldQuantity">
-                <label for="ingrQuantity" class="form-label">Quantity</label>
-                <input class="mb-2" type="text" id="ingrQuantity" name="ingrQuantity" placeholder="Quantity">
-            </div>
-            <div class="col-2 ingredientFieldMeasureUnit">
-                <label for="ingrMeasureUnit" class="form-label">Measure unit</label>
-                <input class="mb-2" type="text" id="ingrMeasureUnit" name="ingrMeasureUnit" placeholder="Unit">
+        <div class="ingredients">
+            <div class="row ingredientsRow">
+                <div class="col-3 ingredientFieldName">
+                    <label for="ingrName" class="form-label">Ingredient</label>
+                    <input class="mb-2" type="text" id="ingrName" name="ingrName" placeholder="Name">
+                </div>
+                <div class="col-3 ingredientFieldQuantity">
+                    <label for="ingrQuantity" class="form-label">Quantity</label>
+                    <input class="mb-2" type="text" id="ingrQuantity" name="ingrQuantity" placeholder="Quantity">
+                </div>
+                <div class="col-2 ingredientFieldMeasureUnit">
+                    <label for="ingrMeasureUnit" class="form-label">Measure unit</label>
+                    <select class="form-select" aria-label="Default select example" id="ingrMeasureUnit"
+                        name="ingrMeasureUnit">
+                        <option selected value="gr">Gr</option>
+                        <option value="ml">Ml</option>
+                        <option value="unit">Units</option>
+                    </select>
+                </div>
             </div>
         </div>
+
         <a class="btn btn-dark addButton mt-3 mb-3">+</a>
         <div class="col-6">
             <label for="description" class="form-label"></label>
             <textarea class="form-control" id="description" rows="3" name="description"
                 placeholder="Description"></textarea>
+        </div>
+        <div>
+            {{errMessage}}
+
         </div>
         <button class="btn btn-info mt-3" type="submit">Create</button>
     </form>

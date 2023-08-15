@@ -20,6 +20,20 @@ const recipeSchema = new Schema(
                 required: true
             }
         }],
+        nutriScore: {
+            ingrKcal: {
+                type: Number,
+            },
+            ingrFat: {
+                type: Number,
+            },
+            ingrCarbs: {
+                type: Number,
+            },
+            ingrProtein: {
+                type: Number,
+            },
+        },
         favorites: [{
             score: {
                 type: Number,
