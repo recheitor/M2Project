@@ -111,7 +111,7 @@ router.post('/create', isLoggedIn, uploaderMiddleware.single('recipeImg'), (req,
 router.get("/:id/details", isLoggedIn, (req, res, next) => {
     const { id: recipe_id } = req.params
     let isVoted = false
-
+    let rating = 0
     Recipe
         .findById(recipe_id)
         .populate('author')
@@ -120,14 +120,24 @@ router.get("/:id/details", isLoggedIn, (req, res, next) => {
                 if (eachFavorite.userId.includes(req.session.currentUser._id)) {
                     isVoted = true
                 }
+                rating += eachFavorite.score
+
+            })
+            recipe.rating = rating / recipe.favorites.length
+
+            let isFavorite = false
+            req.session.currentUser.favs.forEach(eachFav => {
+                if (eachFav === recipe_id) {
+                    isFavorite = true
+                }
             })
 
             if (req.session.currentUser._id === recipe.author[0].id || req.session.currentUser.role === 'ADMIN') {
                 isOwner = true
-                res.render("recipes/recipe-details", { loggedUser: req.session.currentUser, recipe, isOwner, isVoted })
+                res.render("recipes/recipe-details", { loggedUser: req.session.currentUser, recipe, isOwner, isVoted, isFavorite })
                 return
             }
-            res.render("recipes/recipe-details", { loggedUser: req.session.currentUser, recipe, isVoted })
+            res.render("recipes/recipe-details", { loggedUser: req.session.currentUser, recipe, isVoted, isFavorite })
         })
         .catch(err => next(err))
 })
@@ -140,11 +150,12 @@ router.get("/:id/add-favorite", isLoggedIn, (req, res, next) => {
         .then(user => {
             if (!user.favs.includes(recipe_id)) {
                 user.favs.push(recipe_id)
+                req.session.currentUser.favs.push(recipe_id)
             }
             return User.findByIdAndUpdate(loggedUser._id, { favs: user.favs })
         })
         .then(() => {
-            res.redirect("/recipes")
+            res.redirect(`/recipes/${recipe_id}/details`)
         })
         .catch(err => next(err))
 })
@@ -157,10 +168,13 @@ router.get("/:id/delete-favorite", isLoggedIn, (req, res, next) => {
         .then(user => {
             const index = user.favs.indexOf(recipe_id)
             user.favs.splice(index, 1)
+            const indexCurrent = req.session.currentUser.favs.indexOf(recipe_id)
+            req.session.currentUser.favs.splice(indexCurrent, 1)
+
             return User.findByIdAndUpdate(loggedUser._id, { favs: user.favs })
         })
         .then(() => {
-            res.redirect("/recipes/favorites")
+            res.redirect(`/recipes/${recipe_id}/details`)
         })
         .catch(err => next(err))
 })

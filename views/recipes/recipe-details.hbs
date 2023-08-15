@@ -39,12 +39,18 @@
                 </form>
                 {{/unless}}
                 {{#if isVoted}}
-                {{#each recipe.favorites}}
-                <h6>Rating: {{score}}</h6>
-                {{/each}}
+
+                <h6>Rating: {{recipe.rating}}</h6>
+
+                {{/if}}
+                {{#unless isFavorite}}
+                <a href="/recipes/{{recipe._id}}/add-favorite" class="btn btn-dark favorite">Add favorite</a>
+                {{/unless}}
+                {{#if isFavorite}}
+                <a href="/recipes/{{recipe._id}}/delete-favorite" class="btn btn-dark favorite">Remove favorite</a>
                 {{/if}}
                 {{#if isOwner}}
-                <a href="/recipes/{{recipe._id}}/edit" class=" btn btn-dark">Edit</a>
+                <a href="/recipes/{{recipe._id}}/edit" class="btn btn-dark">Edit</a>
                 <a href="/recipes/{{recipe._id}}/delete" class="btn btn-danger">Delete</a>
                 {{/if}}
                 {{#each recipe.author}}

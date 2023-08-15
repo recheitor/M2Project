@@ -12,7 +12,14 @@ router.get('/sign-up', isLoggedOut, (req, res, next) => res.render('auth/sign-up
 router.post('/sign-up', isLoggedOut, uploaderMiddleware.single('avatar'), (req, res, next) => {
 
     const { email, userPwd, username, bio } = req.body
-    const { path: avatar } = req.file
+    const userData = { email, username, bio }
+
+    if (req.file) {
+        const { path: avatar } = req.file
+        userData.avatar = avatar
+    }
+
+
     if (!email.length) {
         const errorMessage = 'Email is requiered'
         res.render('auth/sign-up', { errorMessage })
@@ -34,7 +41,11 @@ router.post('/sign-up', isLoggedOut, uploaderMiddleware.single('avatar'), (req, 
     bcrypt
         .genSalt(saltRounds)
         .then(salt => bcrypt.hash(userPwd, salt))
-        .then(hashedPassword => User.create({ email, username, bio, avatar, password: hashedPassword }))
+        .then(hashedPassword => {
+            userData.password = hashedPassword
+            return User.create(userData)
+        })
+
         .then((user) => {
             req.session.currentUser = user
             res.redirect('/')
