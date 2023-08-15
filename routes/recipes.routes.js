@@ -56,11 +56,11 @@ router.post('/create', isLoggedIn, uploaderMiddleware.single('recipeImg'), (req,
     }
 
     edamamApi
-        .getIngredient(ingredients.ingrName)
-        .then(apiResponse => console.log(apiResponse))
-    Recipe
-        .create(RecipeData)
-        .then(() => res.redirect('/recipes'))
+        .getIngredient(req.body.ingrQuantity, req.body.ingrMeasureUnit, req.body.ingrName)
+    //     .then(apiResponse => console.log(apiResponse.data.totalNutrients.ENERC_KCAL.quantity, 'kcal, ', apiResponse.data.totalNutrients.FAT.quantity, 'g Fat,', apiResponse.data.totalNutrients.CHOCDF.quantity, 'g Carbs ', apiResponse.data.totalNutrients.PROCNT.quantity, 'g Protein'))
+    // Recipe
+    //     .create(RecipeData)
+    //     .then(() => res.redirect('/recipes'))
 
 })
 
