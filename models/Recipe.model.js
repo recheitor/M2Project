@@ -20,6 +20,14 @@ const recipeSchema = new Schema(
                 required: true
             }
         }],
+        favorites: [{
+            score: {
+                type: Number,
+            },
+            userId: {
+                type: String,
+            },
+        }],
         recipeImg: {
             type: String,
             default: 'https://i.stack.imgur.com/l60Hf.png'

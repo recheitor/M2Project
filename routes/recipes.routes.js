@@ -55,12 +55,9 @@ router.post('/create', isLoggedIn, uploaderMiddleware.single('recipeImg'), (req,
         RecipeData.recipeImg = recipeImg
     }
 
-    edamamApi
-        .getIngredient(req.body.ingrQuantity, req.body.ingrMeasureUnit, req.body.ingrName)
-    //     .then(apiResponse => console.log(apiResponse.data.totalNutrients.ENERC_KCAL.quantity, 'kcal, ', apiResponse.data.totalNutrients.FAT.quantity, 'g Fat,', apiResponse.data.totalNutrients.CHOCDF.quantity, 'g Carbs ', apiResponse.data.totalNutrients.PROCNT.quantity, 'g Protein'))
-    // Recipe
-    //     .create(RecipeData)
-    //     .then(() => res.redirect('/recipes'))
+    Recipe
+        .create(RecipeData)
+        .then(() => res.redirect('/recipes'))
 
 })
 
@@ -157,6 +154,18 @@ router.get("/:id/delete", isLoggedIn, (req, res, next) => {
         .findByIdAndDelete(recipe_id)
         .then(() => res.redirect('/recipes'))
         .next(err => next(err))
+})
+
+router.post('/:id/score', isLoggedIn, (req, res) => {
+
+    const { id: recipe_id } = req.params
+    const favorites = { score: req.body.score, userId: req.session.currentUser._id }
+
+
+    Recipe
+        .findByIdAndUpdate(recipe_id, { favorites })
+        .then(() => res.redirect(`/recipes/${recipe_id}/details`))
+        .catch(err => console.log(err))
 })
 
 module.exports = router
