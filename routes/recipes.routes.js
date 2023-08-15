@@ -63,17 +63,24 @@ router.post('/create', isLoggedIn, uploaderMiddleware.single('recipeImg'), (req,
 
 router.get("/:id/details", isLoggedIn, (req, res, next) => {
     const { id: recipe_id } = req.params
+    let isVoted = false
 
     Recipe
         .findById(recipe_id)
         .populate('author')
         .then(recipe => {
+            recipe.favorites.forEach((eachFavorite) => {
+                if (eachFavorite.userId.includes(req.session.currentUser._id)) {
+                    isVoted = true
+                }
+            })
+
             if (req.session.currentUser._id === recipe.author[0].id || req.session.currentUser.role === 'ADMIN') {
                 isOwner = true
-                res.render("recipes/recipe-details", { loggedUser: req.session.currentUser, recipe, isOwner })
+                res.render("recipes/recipe-details", { loggedUser: req.session.currentUser, recipe, isOwner, isVoted })
                 return
             }
-            res.render("recipes/recipe-details", { loggedUser: req.session.currentUser, recipe })
+            res.render("recipes/recipe-details", { loggedUser: req.session.currentUser, recipe, isVoted })
         })
         .catch(err => next(err))
 })
@@ -153,7 +160,7 @@ router.get("/:id/delete", isLoggedIn, (req, res, next) => {
     Recipe
         .findByIdAndDelete(recipe_id)
         .then(() => res.redirect('/recipes'))
-        .next(err => next(err))
+        .catch(err => next(err))
 })
 
 router.post('/:id/score', isLoggedIn, (req, res) => {
@@ -161,11 +168,13 @@ router.post('/:id/score', isLoggedIn, (req, res) => {
     const { id: recipe_id } = req.params
     const favorites = { score: req.body.score, userId: req.session.currentUser._id }
 
-
     Recipe
-        .findByIdAndUpdate(recipe_id, { favorites })
+        .findByIdAndUpdate(recipe_id, { $push: { favorites: favorites } })
         .then(() => res.redirect(`/recipes/${recipe_id}/details`))
         .catch(err => console.log(err))
 })
 
 module.exports = router
+
+
+//for each para obtener todas las puntuaciones, hacer media y trasferir el valor al file hbs {{average}??}

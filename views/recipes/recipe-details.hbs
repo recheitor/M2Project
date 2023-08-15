@@ -22,6 +22,7 @@
         </div>
         <div class="row  text-end">
             <div class="col-12">
+                {{#unless isVoted}}
                 <form action="/recipes/{{recipe._id}}/score" method="POST">
                     <select class="form-select" aria-label="Default select example" name="score">
                         <option selected>Rate this recipe</option>
@@ -33,6 +34,12 @@
                     </select>
                     <button>submit vote</button>
                 </form>
+                {{/unless}}
+                {{#if isVoted}}
+                {{#each recipe.favorites}}
+                <h6>Rating: {{score}}</h6>
+                {{/each}}
+                {{/if}}
                 {{#if isOwner}}
                 <a href="/recipes/{{recipe._id}}/edit" class=" btn btn-dark">Edit</a>
                 <a href="/recipes/{{recipe._id}}/delete" class="btn btn-danger">Delete</a>
