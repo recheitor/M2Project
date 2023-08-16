@@ -17,15 +17,15 @@ router.get("/", isLoggedIn, (req, res) => {
         })
 })
 
-router.get("/favorites", isLoggedIn, (req, res) => {
+router.get("/ratings", isLoggedIn, (req, res) => {
     const loggedUser = req.session.currentUser
 
     User
         .findById(loggedUser._id)
         .populate('favs')
-        .then(favorites => {
-            const favoritesId = favorites.favs.map(favs => favs.id)
-            return Recipe.find({ _id: favoritesId })
+        .then(ratings => {
+            const ratingsId = ratings.favs.map(favs => favs.id)
+            return Recipe.find({ _id: ratingsId })
         })
         .then((recipes) => {
             res.render("recipes/recipes-fav", { loggedUser, recipes })
@@ -116,33 +116,33 @@ router.get("/:id/details", isLoggedIn, (req, res, next) => {
         .findById(recipe_id)
         .populate('author')
         .then(recipe => {
-            recipe.favorites.forEach((eachFavorite) => {
-                if (eachFavorite.userId.includes(req.session.currentUser._id)) {
+            recipe.ratings.forEach((eachrating) => {
+                if (eachrating.userId.includes(req.session.currentUser._id)) {
                     isVoted = true
                 }
-                rating += eachFavorite.score
+                rating += eachrating.score
 
             })
-            recipe.rating = rating / recipe.favorites.length
+            recipe.rating = rating / recipe.ratings.length
 
-            let isFavorite = false
+            let israting = false
             req.session.currentUser.favs.forEach(eachFav => {
                 if (eachFav === recipe_id) {
-                    isFavorite = true
+                    israting = true
                 }
             })
 
             if (req.session.currentUser._id === recipe.author[0].id || req.session.currentUser.role === 'ADMIN') {
                 isOwner = true
-                res.render("recipes/recipe-details", { loggedUser: req.session.currentUser, recipe, isOwner, isVoted, isFavorite })
+                res.render("recipes/recipe-details", { loggedUser: req.session.currentUser, recipe, isOwner, isVoted, israting })
                 return
             }
-            res.render("recipes/recipe-details", { loggedUser: req.session.currentUser, recipe, isVoted, isFavorite })
+            res.render("recipes/recipe-details", { loggedUser: req.session.currentUser, recipe, isVoted, israting })
         })
         .catch(err => next(err))
 })
 
-router.get("/:id/add-favorite", isLoggedIn, (req, res, next) => {
+router.get("/:id/add-rating", isLoggedIn, (req, res, next) => {
     const { id: recipe_id } = req.params
     const loggedUser = req.session.currentUser
     User
@@ -160,7 +160,7 @@ router.get("/:id/add-favorite", isLoggedIn, (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.get("/:id/delete-favorite", isLoggedIn, (req, res, next) => {
+router.get("/:id/delete-rating", isLoggedIn, (req, res, next) => {
     const { id: recipe_id } = req.params
     const loggedUser = req.session.currentUser
     User
@@ -235,10 +235,10 @@ router.get("/:id/delete", isLoggedIn, (req, res, next) => {
 
 router.post('/:id/score', isLoggedIn, (req, res) => {
     const { id: recipe_id } = req.params
-    const favorites = { score: req.body.score, userId: req.session.currentUser._id }
+    const ratings = { score: req.body.score, userId: req.session.currentUser._id }
 
     Recipe
-        .findByIdAndUpdate(recipe_id, { $push: { favorites: favorites } })
+        .findByIdAndUpdate(recipe_id, { $push: { ratings: ratings } })
         .then(() => res.redirect(`/recipes/${recipe_id}/details`))
         .catch(err => console.log(err))
 })
