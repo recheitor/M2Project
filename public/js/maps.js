@@ -1,8 +1,11 @@
-const initialCoords = { lat: 40.416883396122685, lng: -3.7032626690353565 };
+const lat = document.querySelector('#lat')
+const lng = document.querySelector('#lng')
+
+const initialCoords = { lat: Number(lat.value), lng: Number(lng.value) };
 let myMap;
 let service;
 let infowindow;
-const keywords = ["pizzeria", "pizza", "ristorante italiano", "italiano"];
+const keywords = ["pizzeria", "pizza", "ristorante italiano", "italiano", "italy", "italian"];
 function initMap() {
     renderMap();
     autoComplete();
@@ -12,7 +15,7 @@ function initMap() {
 function renderMap() {
     myMap = new google.maps.Map(
         document.querySelector('#map'),
-        { zoom: 15, center: initialCoords }
+        { zoom: 15, center: initialCoords, styles: mapStyles }
     )
     service = new google.maps.places.PlacesService(myMap);
     for (const keyword of keywords) {

@@ -1,35 +1,40 @@
-<h3>New recipe</h3>
-<hr>
-<div class="row">
+<img id="background-recipes" src="https://res.cloudinary.com/dbtmrinwa/image/upload/f_auto,q_auto/mclwnysu101ogudwnvo0"
+    alt="">
+<h2 class="header text-center mt-3">New recipe</h2>
+<div class="row card justify-content-center text-center">
     <form action="/recipes/create" method="POST" enctype="multipart/form-data">
-        <div class="col-6">
-            <label for="title" class="form-label">Nombre</label>
-            <input type="text" id="title" name="title">
-            <br>
-            <label for="recipeImg" class="form-label">Choose photo</label>
-            <input class="form-control form-control-sm mb-3" id="formFileSm" type="file" name="recipeImg">
+        <div class="col-12 mt-3">
+            <label for="title" class="form-label fields">Nombre</label>
+            <input class="d-inline me-5 fields" type="text" id="title" name="title">
+
+            <label for="recipeImg" class="form-label ms-5 fields">Recipe Photo</label>
+            <input class="form-control form-control-sm mb-3 w-25 d-inline fields" id="formFileSm" type="file"
+                name="recipeImg">
         </div>
-        <div class="ingredients">
-            <div class="row ingredientsRow">
-                <div class="col-3 ingredientFieldName">
-                    <label for="ingrName" class="form-label">Ingredient</label>
-                    <input class="mb-2" type="text" id="ingrName" name="ingrName" placeholder="Name">
+        <div class="col-6">
+            <div class="row ingredient justify-content-between">
+
+                <div class="col-4 ingredientFieldName">
+                    <label for="ingrName" class="form-label fields">Ingredient</label>
+                    <input class="mb-2 w-75" type="text" id="ingrName" name="ingrName" placeholder="Name">
                 </div>
-                <div class="col-3 ingredientFieldQuantity">
-                    <label for="ingrQuantity" class="form-label">Quantity</label>
-                    <input class="mb-2" type="text" id="ingrQuantity" name="ingrQuantity" placeholder="Quantity">
+                <div class="col-4 ingredientFieldQuantity">
+                    <label for="ingrQuantity" class="form-label fields">Quantity</label>
+                    <input class="mb-2 w-75" type="text" id="ingrQuantity" name="ingrQuantity" placeholder="Quantity">
                 </div>
-                <div class="col-2 ingredientFieldMeasureUnit">
-                    <label for="ingrMeasureUnit" class="form-label">Measure unit</label>
-                    <select class="form-select" aria-label="Default select example" id="ingrMeasureUnit"
+                <div class="col-4 ingredientFieldMeasureUnit">
+                    <label for="ingrMeasureUnit" class="form-label fields">Measure unit</label>
+                    <select class="form-select w-75" aria-label="Default select example" id="ingrMeasureUnit"
                         name="ingrMeasureUnit">
                         <option selected value="gr">Gr</option>
                         <option value="ml">Ml</option>
                         <option value="unit">Units</option>
                     </select>
                 </div>
+
             </div>
         </div>
+
 
         <a class="btn btn-dark addButton mt-3 mb-3">+</a>
         <div class="col-6">

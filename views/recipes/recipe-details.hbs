@@ -23,8 +23,8 @@
                         alt="recipe pic"></a>
             </div>
         </div>
-        <div class="row  text-end">
-            <div class="col-12">
+        <div class="row justify-content-end text-end">
+            <div class="col-3">
                 {{#unless isVoted}}
                 <form action="/recipes/{{recipe._id}}/score" method="POST">
                     <select class="form-select" aria-label="Default select example" name="score">
@@ -34,30 +34,47 @@
                         <option value="3">3</option>
                         <option value="4">4</option>
                         <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
                     </select>
                     <button>submit vote</button>
                 </form>
                 {{/unless}}
                 {{#if isVoted}}
 
-                <h6>Rating: {{recipe.rating}}</h6>
-
-                {{/if}}
-                {{#unless isFavorite}}
-                <a href="/recipes/{{recipe._id}}/add-favorite" class="btn btn-dark favorite">Add favorite</a>
-                {{/unless}}
-                {{#if isFavorite}}
-                <a href="/recipes/{{recipe._id}}/delete-favorite" class="btn btn-dark favorite">Remove favorite</a>
-                {{/if}}
-                {{#if isOwner}}
-                <a href="/recipes/{{recipe._id}}/edit" class="btn btn-dark">Edit</a>
-                <a href="/recipes/{{recipe._id}}/delete" class="btn btn-danger">Delete</a>
-                {{/if}}
-                {{#each recipe.author}}
-                <h6>Created by: {{username}}</h6>
-                {{/each}}
+                <h6>Rating:</h6>
+                <div class="progress" style='width:100%; background-color:black ;text-align:right'>
+                    <div id='ratingBar' value='uno' class="progress-bar" role="progressbar"
+                        style='width: 25%; background-color:red'>
+                        {{recipe.rating}}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <a href="/recipes" class="btn btn-dark mt-3">Back to recipes</a>
+
+
+    {{/if}}
+    {{#unless isFavorite}}
+    <a href=" /recipes/{{recipe._id}}/add-favorite" class="btn btn-dark favorite">Add favorite</a>
+    {{/unless}}
+    {{#if isFavorite}}
+    <a href="/recipes/{{recipe._id}}/delete-favorite" class="btn btn-dark favorite">Remove
+        favorite</a>
+    {{/if}}
+    {{#if isOwner}}
+    <a href="/recipes/{{recipe._id}}/edit" class="btn btn-dark">Edit</a>
+    <a href="/recipes/{{recipe._id}}/delete" class="btn btn-danger">Delete</a>
+    {{/if}}
+    {{#each recipe.author}}
+    <h6>Created by: {{username}}</h6>
+    {{/each}}
 </div>
+</div>
+</div>
+<a href="/recipes" class="btn btn-dark mt-3">Back to recipes</a>
+</div>
+<script src="/js/rating.js"></script>

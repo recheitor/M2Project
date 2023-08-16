@@ -1,8 +1,145 @@
 #map {
-    height: 600px;
-    ;
+    height: 500px;
+    border-radius: 25px;
+    box-shadow: 4px 4px 15px 0px #000000
 }
 
 #autocomplete {
+    text-align: center;
     width: 40%
+}
+
+.dropdown-menu {
+    overflow: initial
+}
+
+#background-video,
+#background-recipes,
+#background-restaurants {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+
+
+h2,
+.createdBy,
+.nutriScore {
+    color: black;
+    Font-family: Alexandria
+}
+
+.description,
+.ingredients,
+.fields {
+    font-weight: bold;
+}
+
+h2.header {
+    color: white;
+    Font-family: Alexandria
+}
+
+
+.nav-item {
+    font-family: Alexandria
+}
+
+@media screen and (min-width: 992px) {
+    .navbar {
+        padding: 0;
+    }
+
+    .navbar .navbar-nav .nav-link {
+        padding: 1em 0;
+        text-shadow: 2px 2px #423e3e
+    }
+
+    .navbar .navbar-nav .nav-item {
+        margin: 0 1em;
+    }
+}
+
+.navbar .navbar-nav .nav-item {
+    position: relative;
+}
+
+.navbar .navbar-nav .nav-item::after {
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    content: "";
+    background-color: #a51010;
+    width: 0%;
+    height: 4px;
+    transition: all 0.5s;
+
+}
+
+.navbar .navbar-nav .nav-item:hover::after {
+    width: 100%;
+
+}
+
+.navbar {
+    background-color: rgba(206, 174, 127, 0.2);
+    backdrop-filter: sepia(90%);
+    height: 80px
+}
+
+.card {
+    background-color: rgba(233, 190, 165, 0.7);
+    border-radius: 25px;
+}
+
+
+.recipeImg {
+    border-radius: 25px;
+    box-shadow: 4px 4px 15px 0px #000000
+}
+
+
+/* < !-- HTML !--><button class="button-62" role="button">Button 62</button> */
+
+/* CSS */
+.button-62 {
+    background: linear-gradient(to bottom right, #ead29f, #f4e6dc);
+    border: 0;
+    border-radius: 12px;
+    color: black;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Alexandria, -apple-system, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 2.5;
+    outline: transparent;
+    padding: 0 1rem;
+    text-align: center;
+    text-decoration: none;
+    transition: box-shadow .2s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+}
+
+.button-62:not([disabled]):focus {
+    color: black;
+    box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+}
+
+.button-62:not([disabled]):hover {
+    color: black;
+    box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
 }

@@ -5,30 +5,66 @@ const router = express.Router();
 const User = require("../models/User.model")
 const Recipe = require("../models/Recipe.model");
 const edamamApi = require('../services/edamam-service');
+const { ratingScore } = require('../utils/rating')
 
 router.get("/", isLoggedIn, (req, res) => {
     const loggedUser = req.session.currentUser
-
-    Recipe
-        .find()
-        .populate('author')
-        .then(recipes => {
-            res.render("recipes/recipes-list", { loggedUser, recipes });
-        })
+    if (req.query.sort === 'ingrKcal') {
+        Recipe
+            .find()
+            .sort({ 'nutriScore.ingrKcal': 1 })
+            .populate('author')
+            .then(recipes => {
+                res.render("recipes/recipes-list", { loggedUser, recipes });
+            })
+    } else if (req.query.sort === 'ingrCarbs') {
+        Recipe
+            .find()
+            .sort({ 'nutriScore.ingrCarbs': 1 })
+            .populate('author')
+            .then(recipes => {
+                res.render("recipes/recipes-list", { loggedUser, recipes });
+            })
+    } else if (req.query.sort === 'ingrFat') {
+        Recipe
+            .find()
+            .sort({ 'nutriScore.ingrFat': 1 })
+            .populate('author')
+            .then(recipes => {
+                res.render("recipes/recipes-list", { loggedUser, recipes });
+            })
+    } else if (req.query.sort === 'ingrProtein') {
+        Recipe
+            .find()
+            .sort({ 'nutriScore.ingrProtein': -1 })
+            .populate('author')
+            .then(recipes => {
+                res.render("recipes/recipes-list", { loggedUser, recipes });
+            })
+    } else {
+        Recipe
+            .find()
+            .sort()
+            .populate('author')
+            .then(recipes => {
+                res.render("recipes/recipes-list", { loggedUser, recipes });
+            })
+    }
 })
 
 router.get("/favorites", isLoggedIn, (req, res) => {
     const loggedUser = req.session.currentUser
-
+    const myFavoriteRecipes = true
     User
         .findById(loggedUser._id)
         .populate('favs')
         .then(favorites => {
             const favoritesId = favorites.favs.map(favs => favs.id)
-            return Recipe.find({ _id: favoritesId })
+            return Recipe.find({ _id: favoritesId }).populate('author')
         })
+
         .then((recipes) => {
-            res.render("recipes/recipes-fav", { loggedUser, recipes })
+            res.render("recipes/recipes-list", { loggedUser, recipes, myFavoriteRecipes })
         }
         )
 })
@@ -111,7 +147,7 @@ router.post('/create', isLoggedIn, uploaderMiddleware.single('recipeImg'), (req,
 router.get("/:id/details", isLoggedIn, (req, res, next) => {
     const { id: recipe_id } = req.params
     let isVoted = false
-    let rating = 0
+
     Recipe
         .findById(recipe_id)
         .populate('author')
@@ -120,10 +156,9 @@ router.get("/:id/details", isLoggedIn, (req, res, next) => {
                 if (eachFavorite.userId.includes(req.session.currentUser._id)) {
                     isVoted = true
                 }
-                rating += eachFavorite.score
 
             })
-            recipe.rating = rating / recipe.favorites.length
+            recipe.rating = ratingScore(recipe)
 
             let isFavorite = false
             req.session.currentUser.favs.forEach(eachFav => {
@@ -246,4 +281,3 @@ router.post('/:id/score', isLoggedIn, (req, res) => {
 module.exports = router
 
 
-//for each para obtener todas las puntuaciones, hacer media y trasferir el valor al file hbs {{average}??}
