@@ -1,0 +1,38 @@
+<h3>Edit event</h3>
+<hr>
+<div class="row">
+    <form action="/events/{{event._id}}/edit" method="POST" enctype="multipart/form-data">
+        <div class="col-6">
+            <label for="title" class="form-label">Name Event</label>
+            <input type="text" id="title" name="title" value="{{event.title}}">
+            <br>
+            <label for="icon" class="form-label">Choose photo</label>
+            <input class="form-control form-control-sm mb-3" id="formFileSm" type="file" name="icon">
+        </div>
+        <div class="col-6">
+            <label for="date" class="form-label">Date</label>
+            <input type="date" id="date" name="date" value="{{event.date}}">
+            <br>
+        </div>
+
+        <div class="col-6">
+            <label>Latitude
+                <input name="latitude" type="text" value="{{event.location.coordinates.latitude}}">
+            </label>
+            <br>
+            <label>Longitude
+                <input name="longitude" type="text" value="{{event.location.coordinates.longitude}}">
+
+        </div>
+
+        <div class="col-6">
+            <label for="description" class="form-label"></label>
+            <textarea class="form-control" id="description" rows="3" name="description"
+                placeholder="Description">{{event.description}}</textarea>
+        </div>
+        <div>
+            {{errMessage}}
+        </div>
+        <button class="btn btn-info mt-3" type="submit">Edit</button>
+    </form>
+</div>

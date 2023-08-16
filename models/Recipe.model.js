@@ -34,7 +34,7 @@ const recipeSchema = new Schema(
                 type: Number,
             },
         },
-        favorites: [{
+        ratings: [{
             score: {
                 type: Number,
             },
@@ -48,7 +48,7 @@ const recipeSchema = new Schema(
         },
         description: {
             type: String,
-            default: 'No existe descripción.'
+            default: 'No description'
         },
         author: [{
             type: Schema.Types.ObjectId,

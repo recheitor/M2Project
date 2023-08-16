@@ -1,0 +1,34 @@
+<h2>Event info</h2>
+<hr>
+<div class="row">
+    <div class="col-12 card text-center mt-3 bg-light pt-3">
+        <h2>{{event.title}}</h2>
+        <hr>
+        <p>{{event.description}}</p>
+        <div class="row justify-content-center">
+            <div class="col-6 text-center">
+                <p>{{event.date}}</p>
+                <p>{{event.address}}</p>
+                <div class="col-6">
+                    <a href="{{icon}}"><img class='img-responsive w-25' src="{{icon}}" alt="event pic"></a>
+                </div>
+                <a href="/events/{{event._id}}/edit">Edit event</a>
+            </div>
+            {{!-- <div class="row  text-end">
+                <div class="col-12"> --}}
+                    {{!-- {{#unless isFavorite}}
+                    <a href="/recipes/{{recipe._id}}/add-favorite" class="btn btn-dark favorite">Add favorite</a>
+                    {{/unless}}
+                    {{#if isFavorite}}
+                    <a href="/recipes/{{recipe._id}}/delete-favorite" class="btn btn-dark favorite">Remove favorite</a>
+                    {{/if}}
+                    {{#if isOwner}}
+                    <a href="/recipes/{{recipe._id}}/edit" class="btn btn-dark">Edit</a>
+                    <a href="/recipes/{{recipe._id}}/delete" class="btn btn-danger">Delete</a>
+                    {{/if}} --}}
+                    {{!--
+                </div>
+            </div> --}}
+        </div>
+        <a href="/events" class="btn btn-dark mt-3">Back to events</a>
+    </div>

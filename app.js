@@ -29,6 +29,9 @@ app.use("/user", userRoutes);
 const recipesRoutes = require("./routes/recipes.routes");
 app.use("/recipes", recipesRoutes);
 
+const eventsRoutes = require("./routes/events.routes")
+app.use("/events", eventsRoutes);
+
 require("./error-handling")(app);
 
 module.exports = app;
