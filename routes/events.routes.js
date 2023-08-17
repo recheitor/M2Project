@@ -24,7 +24,10 @@ router.get("/", (req, res, next) => {
 router.get("/:id/info", isLoggedIn, (req, res, next) => {
     const { id: event_id } = req.params
     const loggedUser = req.session.currentUser
-
+    let isAdmin = false
+    if (req.session.currentUser.role === 'ADMIN') {
+        isAdmin = true
+    }
     Event
         .findById(event_id)
         .populate('attender')
@@ -38,7 +41,7 @@ router.get("/:id/info", isLoggedIn, (req, res, next) => {
                     isJoined = true
                 }
             })
-            res.render('events/info', { event, isJoined })
+            res.render('events/info', { event, isJoined, isAdmin })
         })
         .catch(err => next(err))
 })
@@ -49,19 +52,23 @@ router.get("/add", isLoggedIn, (req, res) => {
 })
 
 router.post("/add", isLoggedIn, uploaderMiddleware.single('icon'), (req, res, next) => {
-    const { title, icon, description, type, address, date } = req.body
-
+    const { title, description, type, address, date } = req.body
+    const eventData = { title, description, type, address, date }
+    if (req.file) {
+        const { path: icon } = req.file
+        eventData.icon = icon
+    }
     geocodingApi
         .getCoordenates(address)
         .then(response => {
-            const location = {
+            location = {
                 type: 'Point',
                 coordenates: [response.data.results[0].geometry.location.lng, response.data.results[0].geometry.location.lat]
             }
-            return location
+            return eventData.location = location
         })
-        .then(location => Event
-            .create({ title, icon, description, type, address, location, date })
+        .then(() => Event
+            .create(eventData)
             .then(() => res.redirect('/events')))
         .catch(err => next(err))
 })
@@ -79,7 +86,7 @@ router.get("/:id/edit", isLoggedIn, (req, res, next) => {
 
 router.post("/:id/edit", isLoggedIn, uploaderMiddleware.single('icon'), (req, res, next) => {
     const { id: event_id } = req.params
-    const { title, icon, description, type, address, latitude, longitude, date } = req.body
+    const { title, icon, description, type, address, location, date } = req.body
     const newUserData = { title, icon, description, type, address, location, date }
 
     if (req.file) {

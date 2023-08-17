@@ -1,41 +1,66 @@
-<h2>Event info</h2>
-<hr>
-<div class="row">
-    <div class="col-12 card text-center mt-3 bg-light pt-3">
-        <h2>{{event.title}}</h2>
-        <hr>
-        <p>{{event.description}}</p>
-        <div class="row justify-content-center">
-            <div class="col-6 text-center">
-                <p>{{event.formattedDate}}, {{event.formattedTime}}</p>
-                <p>{{event.address}}</p>
-                <p>Attenders: {{event.attender.length}}</p>
-                <div class="col-6">
-                    <a href="{{event.icon}}"><img class='img-responsive w-25' src="{{event.icon}}" alt="event pic"></a>
+<div>
+    <img id="background-recipes"
+        src="https://res.cloudinary.com/dbtmrinwa/image/upload/f_auto,q_auto/mclwnysu101ogudwnvo0" alt="">
+    <div class="row mt-4 text-center">
+        <h2 class="header">Event Details</h2>
+    </div>
+    <div class="row justify-content-start text-center">
+        <div class="col-12 ">
+            <div class="row align-self-center ">
+                <div class="col-6 card text-center eventMaxHeight">
+                    <h2 class="mt-1">{{event.title}}</h2>
+                    <hr>
+                    <p class="description">{{event.description}}</p>
+                    <hr>
+                    <div class="row justify-content-between ">
+                        <div class="col-6 text-start">
+                            <p class="description">Location: {{event.address}}</p>
+                            <p class="description">Date: {{event.formattedDate}}, {{event.formattedTime}}</p>
+
+                            <p class="description">Attenders: {{event.attender.length}}</p>
+                            <div class="event-attender overflow-auto">
+                                {{#each event.attender}}
+                                <p class="description">{{username}}</p>
+                                <img src="{{avatar}}" alt="user pic" class="w-25">
+                                {{/each}}
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <a href="{{event.icon}}"><img class='w-75' src="{{event.icon}}" alt="event pic"></a>
+                            {{#if isAdmin}}
+                            <a class="d-block button-62 m-1" href="/events/{{event._id}}/edit">Edit event</a>
+                            {{/if}}
+                            {{#unless isJoined}}
+                            <a href=" /events/{{event._id}}/join-event" class="d-block button-62 m-1">Join event</a>
+                            {{/unless}}
+                            {{#if isJoined}}
+                            <a href="/events/{{event._id}}/unjoin-event" class="d-block button-62 m-1">Unjoin-event</a>
+                            {{/if}}
+                            <a href="/events" class="d-block button-62 button-63 m-1">Back to events</a>
+                        </div>
+
+                    </div>
+
                 </div>
-                <a href="/events/{{event._id}}/edit">Edit event</a>
-            </div>
-            {{#unless isJoined}}
-            <a href=" /events/{{event._id}}/join-event" class="btn btn-dark favorite">Join event</a>
-            {{/unless}}
-            {{#if isJoined}}
-            <a href="/events/{{event._id}}/unjoin-event" class="btn btn-dark favorite">Unjoin-event</a>
-            {{/if}}
-            <div class="col-6">
-                <input type="hidden" id="lng" value="{{event.location.coordenates.[0]}}">
-
-                <input type="hidden" id="lat" value="{{event.location.coordenates.[1]}}">
-
-                <figure id="map"></figure>
+                <div class="col-6">
+                    <input type="hidden" id="lng" value="{{event.location.coordenates.[0]}}">
+                    <input type="hidden" id="lat" value="{{event.location.coordenates.[1]}}">
+                    <figure class="eventMaxHeight" id="map"></figure>
+                </div>
             </div>
         </div>
-        <a href="/events" class="btn btn-dark mt-3">Back to events</a>
+        <div class="col-2">
+
+
+        </div>
+
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <script src="/js/events-infomap.js"></script>
-    <script src="/js/map-styles.js"></script>
-    <script async
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9cparf9WJ2kLOCPmr_4e_NRdstbvHob0&libraries=places&callback=initMap">
-        </script>
+<script src="/js/events-infomap.js"></script>
+<script src="/js/map-styles.js"></script>
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9cparf9WJ2kLOCPmr_4e_NRdstbvHob0&libraries=places&callback=initMap">
+    </script>

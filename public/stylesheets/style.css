@@ -4,6 +4,10 @@
     box-shadow: 4px 4px 15px 0px #000000
 }
 
+.eventMaxHeight {
+    height: 65vh !important;
+}
+
 #autocomplete {
     text-align: center;
     width: 40%
@@ -110,6 +114,7 @@ h2.header {
 }
 
 .button-62 {
+
     background: linear-gradient(to bottom right, #ead29f, #f4e6dc);
     border: 0;
     border-radius: 12px;
@@ -147,4 +152,8 @@ h2.header {
 
 .button-64 {
     display: none;
+}
+
+.event-attender {
+    height: 200px;
 }

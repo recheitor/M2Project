@@ -7,7 +7,7 @@ function initMap() {
 function renderMap() {
     eventMap = new google.maps.Map(
         document.querySelector('#map'),
-        { zoom: 15, center: initialCoords, styles: mapStyles }
+        { zoom: 6, center: initialCoords, styles: mapStyles }
     )
 }
 function getPlacesData() {
