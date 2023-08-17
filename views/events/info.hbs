@@ -14,21 +14,8 @@
                 </div>
                 <a href="/events/{{event._id}}/edit">Edit event</a>
             </div>
-            {{!-- <div class="row  text-end">
-                <div class="col-12"> --}}
-                    {{!-- {{#unless isFavorite}}
-                    <a href="/recipes/{{recipe._id}}/add-favorite" class="btn btn-dark favorite">Add favorite</a>
-                    {{/unless}}
-                    {{#if isFavorite}}
-                    <a href="/recipes/{{recipe._id}}/delete-favorite" class="btn btn-dark favorite">Remove favorite</a>
-                    {{/if}}
-                    {{#if isOwner}}
-                    <a href="/recipes/{{recipe._id}}/edit" class="btn btn-dark">Edit</a>
-                    <a href="/recipes/{{recipe._id}}/delete" class="btn btn-danger">Delete</a>
-                    {{/if}} --}}
-                    {{!--
-                </div>
-            </div> --}}
+            <a href=" /events/{{event._id}}/join-event" class="btn btn-dark favorite">Join event</a>
+            <a href="/events/{{event._id}}/unjoin-event" class="btn btn-dark favorite">Unjoin-event</a>
         </div>
         <a href="/events" class="btn btn-dark mt-3">Back to events</a>
     </div>

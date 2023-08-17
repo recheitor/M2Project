@@ -19,11 +19,10 @@ router.get("/", (req, res) => {
         });
 })
 
+
 router.get("/:id/info", isLoggedIn, (req, res, next) => {
     const { id: event_id } = req.params
     const loggedUser = req.session.currentUser
-    //poner el utils de la fecha y de la hora
-
     Event
         .findById(event_id)
         .then(event => {
@@ -35,8 +34,6 @@ router.get("/:id/info", isLoggedIn, (req, res, next) => {
 })
 
 
-
-
 router.get("/add", isLoggedIn, (req, res) => {
     res.render("events/addevent", { loggedUser: req.session.currentUser })
 })
@@ -46,10 +43,7 @@ router.post("/add", isLoggedIn, uploaderMiddleware.single('icon'), (req, res, ne
     const { title, icon, description, type, address, latitude, longitude, date } = req.body
 
     const newUserData = { title, icon, description, type, address, latitude, longitude, date }
-    // const location = {
-    //     type: 'Point',
-    //     coordinates: [longitude, latitude]
-    // }
+
     if (req.file) {
         const { path: icon } = req.file
         newUserData.icon = icon
@@ -74,13 +68,10 @@ router.get("/:id/edit", isLoggedIn, (req, res) => {
         .catch(err => next(err))
 })
 
+
 router.post("/:id/edit", isLoggedIn, uploaderMiddleware.single('icon'), (req, res) => {
     const { id: event_id } = req.params
     const { title, icon, description, type, address, latitude, longitude, date } = req.body
-    // const location = {
-    //     type: 'Point',
-    //     coordinates: [longitude, latitude]
-    // }
     const newUserData = { title, icon, description, type, address, location, date }
 
     if (req.file) {
@@ -93,7 +84,6 @@ router.post("/:id/edit", isLoggedIn, uploaderMiddleware.single('icon'), (req, re
         .then(() => res.redirect(`/events/${event_id}/info`))
         .catch(err => next(err))
 })
-//no se guarda la fecha asignada en el create, ni las coordenadas
 
 
 router.get("/:id/delete", isLoggedIn, (req, res) => {
@@ -104,6 +94,17 @@ router.get("/:id/delete", isLoggedIn, (req, res) => {
         .then(() => res.redirect('/events'))
         .catch(err => next(err))
 })
+
+
+router.get("/:id/join-event", isLoggedIn, (req, res, next) => {
+    const { id: event_id } = req.params
+    const loggedUser = req.session.currentUser
+    Event
+        .findByIdAndUpdate(event_id, { $push: { attender: loggedUser._id } })
+        .then(() => res.redirect(`/events/${event_id}/info`))
+        .catch(err => next(err))
+})
+
 
 
 

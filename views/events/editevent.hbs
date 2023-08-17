@@ -14,17 +14,11 @@
             <input type="date" id="date" name="date" value="{{event.date}}">
             <br>
         </div>
-
         <div class="col-6">
-            <label>Latitude
-                <input name="latitude" type="text" value="{{event.location.coordinates.latitude}}">
-            </label>
-            <br>
-            <label>Longitude
-                <input name="longitude" type="text" value="{{event.location.coordinates.longitude}}">
-
+            <label>Address
+                <input name="latitude" type="text" value="{{event.address}}">
+                <br>
         </div>
-
         <div class="col-6">
             <label for="description" class="form-label"></label>
             <textarea class="form-control" id="description" rows="3" name="description"
