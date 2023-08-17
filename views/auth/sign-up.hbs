@@ -1,41 +1,48 @@
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h1>Registro</h1>
-            <hr>
-            <form action="/auth/sign-up" method="POST" enctype="multipart/form-data">
-                <div class="mb-3 row">
-                    <div class="col">
-                        <label for="emailInput" class="form-label">Dirección de email</label>
-                        <input type="email" class="form-control" id="emailInput" name="email" value="{{email}}">
-                    </div>
-                    <div class="col">
-                        <label for="usernameInput" class="form-label">Nombre de usuario</label>
-                        <input type="text" class="form-control" id="usernameInput" name="username" value="{{username}}">
-                    </div>
+<img id="background-recipes" src="https://res.cloudinary.com/dbtmrinwa/image/upload/f_auto,q_auto/mclwnysu101ogudwnvo0"
+    alt="">
+<h2 class="header text-center mt-3">Register</h2>
+<div class="row card justify-content-center text-center">
+    <form action="/auth/sign-up" method="POST" enctype="multipart/form-data">
+        <div class="col-12 mt-3 ">
+            <div class="row">
+                <div class="col-6 mb-5 ">
+
+                    <label for="usernameInput" class="form-label fields d-block">Username</label>
+                    <input class="btn btn-light fields w-75" type="text" id="usernameInput" name="username"
+                        placeholder="Username">
                 </div>
-                <div class="mb-3">
-                    <label for="pwdInput" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="pwdInput" name="userPwd">
+                <div class="col-6 mb-5 ">
+                    <label for="emailInput" class="form-label fields d-block">Email adress</label>
+                    <input class="btn btn-light fields w-75" type="email" id="emailInput" name="email"
+                        placeholder="Insert email">
                 </div>
-                <div class="mb-3">
-                    <label for="bio" class="form-label">Bio</label>
-                    <textarea class="form-control" id="bio" rows="3" name="bio"></textarea>
+                <div class="col-6 mb-5 ">
+
+                    <label for="pwdInput" class="form-label fields d-block">Password</label>
+                    <input class="btn btn-light fields w-75" type="password" id="pwdInput" name="userPwd"
+                        placeholder="Password">
                 </div>
-                <div class="mb-3">
-                    <label for="imageInput" class="form-label">Choose photo</label>
-                    <input class="form-control form-control-sm mb-3" id="imageInput" type="file" name="avatar">
-                    <div class="form-text">Introduce la URL a la imagen que desees de perfil.</div>
+
+                <div class="col-6 mb-5">
+                    <label for="imageInput" class="form-label fields d-block">Choose avatar photo</label>
+                    <input class="btn btn-light form-control form-control-sm fields w-75" id="imageInput" type="file"
+                        name="avatar">
                 </div>
-                {{#if errorMessage}}
-                <div class='bg-warning mb-2 text-center' id="errorMessage">
-                    <p>{{errorMessage}}</p>
-                </div>
-                {{/if}}
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-dark block">Completar registro</button>
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <label for="bio" class="form-label">Bio</label>
+                <textarea class="form-control description" id="bio" rows="3" name="bio"
+                    placeholder="Insert your bio"></textarea>
+            </div>
+        </div>
+        {{#if errorMessage}}
+        <div class='bg-warning mb-2 text-center' id="errorMessage">
+            <p>{{errorMessage}}</p>
+        </div>
+        {{/if}}
+        <button class="button-62 m-3" type="submit">Completed</button>
+    </form>
 </div>
+<script src="/js/recipe.js"></script>

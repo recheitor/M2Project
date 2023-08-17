@@ -12,7 +12,7 @@ router.get("/profile", isLoggedIn, (req, res) => {
     if (req.session.currentUser.role === 'ADMIN') {
         isAdmin = true
     }
-    res.render("user/personalprofile", { isAdmin });
+    res.render("user/personal-profile", { isAdmin });
 })
 
 router.get('/list', isLoggedIn, (req, res, next) => {
@@ -23,37 +23,21 @@ router.get('/list', isLoggedIn, (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.get('/my-recipes', isLoggedIn, (req, res, next) => {
 
-
-    const { _id: author } = req.session.currentUser
-    const myRecipes = true
-
-    Recipe
-        .find({ author })
-        .populate('author')
-        .then(recipes => res.render('recipes/recipes-list', { recipes, myRecipes }))
-        .catch(err => next(err))
-})
-
-router.get('/:user_id', isLoggedIn, checkRoles('USER', "ADMIN"), (req, res, next) => {
-
+router.get("/:user_id", isLoggedIn, (req, res) => {
     const { user_id } = req.params
 
-    const userRoles = {
-        isAdmin: req.session.currentUser?.role === 'ADMIN',
-        isUserId: req.session.currentUser?._id === user_id
+    let isAdmin = false
+    if (req.session.currentUser.role === 'ADMIN') {
+        isAdmin = true
     }
 
-    if (userRoles.isAdmin || userRoles.isUserId) {
-        User
-            .findById(user_id)
-            .then(user => res.render('user/profiles', { user, userRoles }))
-            .catch(err => next(err))
-    }
-    else
-        res.redirect('/user/list')
+    User
+        .findById(user_id)
+        .then((user) => res.render("user/personal-profile", { user, isAdmin }))
+
 })
+
 
 router.get("/:user_id/edit", isLoggedIn, checkRoles('USER', 'ADMIN'), (req, res, next) => {
 
@@ -61,7 +45,7 @@ router.get("/:user_id/edit", isLoggedIn, checkRoles('USER', 'ADMIN'), (req, res,
 
     User
         .findById(user_id)
-        .then(user => res.render("user/edit", user))
+        .then(user => res.render("user/edit-profile", user))
         .catch(err => next(err))
 })
 
@@ -77,11 +61,20 @@ router.post('/:user_id/edit', isLoggedIn, uploaderMiddleware.single('avatar'), (
         newUserData.avatar = avatar
     }
 
-    User
-        .findByIdAndUpdate(user_id, newUserData)
-        .then(user => res.redirect(`/user/${user._id}`))
-        .catch(err => next(err))
+    if (req.session.currentUser.role === 'ADMIN') {
+        User
+            .findByIdAndUpdate(user_id, newUserData)
+            .then(() => res.redirect(`/user/list`))
+            .catch(err => next(err))
+    } else {
+        User
+            .findByIdAndUpdate(user_id, newUserData)
+            .then(() => res.redirect(`/user/${user_id}`))
+            .catch(err => next(err))
+    }
 })
+
+
 
 router.post('/:user_id/delete', isLoggedIn, (req, res, next) => {
 

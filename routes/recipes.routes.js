@@ -32,11 +32,11 @@ router.get("/", isLoggedIn, (req, res, next) => {
 
 })
 
-router.get("/favorites", isLoggedIn, (req, res, next) => {
-    const loggedUser = req.session.currentUser
+router.get("/:user_id/favorites", isLoggedIn, (req, res, next) => {
+    const { user_id: user } = req.params
     const myFavoriteRecipes = true
     User
-        .findById(loggedUser._id)
+        .findById(user)
         .populate('favs')
         .then(favorites => {
             const favoritesId = favorites.favs.map(favs => favs.id)
@@ -119,6 +119,18 @@ router.post('/create', isLoggedIn, uploaderMiddleware.single('recipeImg'), (req,
         })
         .then(() => res.redirect('/recipes'))
         .catch(err => next())
+})
+
+router.get('/:user_id', isLoggedIn, (req, res, next) => {
+
+    const { user_id: author } = req.params
+    const myRecipes = true
+
+    Recipe
+        .find({ author })
+        .populate('author')
+        .then(recipes => res.render('recipes/recipes-list', { recipes, myRecipes }))
+        .catch(err => next(err))
 })
 
 router.get("/:id/details", isLoggedIn, (req, res, next) => {

@@ -40,6 +40,7 @@ h2,
 .ingredients,
 .fields {
     font-weight: bold;
+    font-family: Raleway;
 }
 
 h2.header {
@@ -94,7 +95,8 @@ h2.header {
 .navbar {
     background-color: rgba(206, 174, 127, 0.2);
     backdrop-filter: sepia(90%);
-    height: 80px
+    height: 80px;
+    z-index: 5;
 }
 
 .card {
@@ -102,16 +104,11 @@ h2.header {
     border-radius: 25px;
 }
 
-
 .recipeImg {
     border-radius: 25px;
     box-shadow: 4px 4px 15px 0px #000000
 }
 
-
-/* < !-- HTML !--><button class="button-62" role="button">Button 62</button> */
-
-/* CSS */
 .button-62 {
     background: linear-gradient(to bottom right, #ead29f, #f4e6dc);
     border: 0;
@@ -142,4 +139,12 @@ h2.header {
 .button-62:not([disabled]):hover {
     color: black;
     box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+}
+
+.button-63 {
+    background: linear-gradient(to bottom right, #766e63, #a8a7a6);
+}
+
+.button-64 {
+    display: none;
 }

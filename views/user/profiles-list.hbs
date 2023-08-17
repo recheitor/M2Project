@@ -1,12 +1,26 @@
-<div class="container">
-    <h1>Students list</h1>
-    <hr>
-    <div class="row">
-        {{#each users}}
-        <div class="col-12 mt-3">
-            {{username}}
-            <a href="/user/{{_id}}" class="btn btn-dark">View profile</a>
-            {{/each}}
+<div>
+    <img id="background-recipes"
+        src="https://res.cloudinary.com/dbtmrinwa/image/upload/f_auto,q_auto/mclwnysu101ogudwnvo0" alt="">
+    <div class="row mt-4 text-center">
+        <h2 class="header">Students list</h2>
+    </div>
+    <div class="row justify-content-center text-center">
+        <div class="col-6 card">
+
+            <div class="row justify-content-center">
+                {{#each users}}
+                <div class="col-6 m-1"></div>
+                <h2>{{username}}</h2>
+                <div class="col-6 text-start ingredients align-self-center">
+                    <a href="/user/{{_id}}" class="d-block button-62 m-1">View profile</a>
+                </div>
+                <hr>
+                {{/each}}
+            </div>
+
         </div>
     </div>
+
+
+</div>
 </div>

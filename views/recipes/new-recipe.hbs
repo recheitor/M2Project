@@ -7,7 +7,8 @@
             <div class="row">
                 <div class="col-6 mb-5 ">
                     <label for="title" class="form-label fields d-block">Name</label>
-                    <input class="btn btn-light fields w-75" type="text" id="title" name="title">
+                    <input class="btn btn-light fields w-75" type="text" id="title" name="title"
+                        placeholder="Recipe Name">
                 </div>
                 <div class="col-6 mb-5">
                     <label for="recipeImg" class="form-label fields d-block">Recipe Photo</label>
@@ -41,8 +42,8 @@
                         unit</label>
                     <div class="row measureUnitRow">
                         <div class="col-12 measureUnitCol">
-                            <select class="btn btn-light mb-2 form-select w-100" aria-label="Default select example"
-                                id="ingrMeasureUnit" name="ingrMeasureUnit">
+                            <select class="btn btn-light mb-2 form-select w-100 description"
+                                aria-label="Default select example" id="ingrMeasureUnit" name="ingrMeasureUnit">
                                 <option selected value="gr">Gr</option>
                                 <option value="ml">Ml</option>
                                 <option value="unit">Units</option>
@@ -55,15 +56,17 @@
         <div class="col-12">
             <a class="btn btn-dark addButton mt-3 mb-3">+</a>
         </div>
-        <div class="col-6">
-            <label for="description" class="form-label"></label>
-            <textarea class="form-control" id="description" rows="3" name="description"
-                placeholder="Description"></textarea>
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <label for="description" class="form-label"></label>
+                <textarea class="form-control description" id="description" rows="3" name="description"
+                    placeholder="Description"></textarea>
+            </div>
         </div>
         <div>
             {{errMessage}}
         </div>
-        <button class="btn btn-info mt-3" type="submit">Create</button>
+        <button class="button-62 m-3" type="submit">Create</button>
     </form>
 </div>
 <script src="/js/recipe.js"></script>

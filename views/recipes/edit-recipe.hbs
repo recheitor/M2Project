@@ -1,44 +1,74 @@
-<h3>Edit recipe</h3>
-<hr>
-<div class="row">
+<img id="background-recipes" src="https://res.cloudinary.com/dbtmrinwa/image/upload/f_auto,q_auto/mclwnysu101ogudwnvo0"
+    alt="">
+<h2 class="header text-center mt-3">New recipe</h2>
+<div class="row card justify-content-center text-center">
     <form action="/recipes/{{recipe._id}}/edit" method="POST" enctype="multipart/form-data">
-        <div class="col-6">
-            <label for="title" class="form-label">Nombre</label>
-            <input type="text" id="title" name="title" value="{{recipe.title}}">
-            <br>
-            <label for="recipeImg" class="form-label"></label>
-            <input class="form-control form-control-sm mb-3" id="formFileSm" type="file" name="recipeImg">
-        </div>
-        <div class="row">
-            <div class="col-3 ingredientFieldName">
-                <label for="ingrName" class="form-label">Ingredient</label>
-                {{#each recipe.ingredients}}
-                <input class="mb-2" type="text" id="ingrName" name="ingrName" placeholder="Name" value="{{ingrName}}">
-                {{/each}}
-            </div>
-            <div class="col-3 ingredientFieldQuantity">
-                <label for="ingrQuantity" class="form-label">Quantity</label>
-                {{#each recipe.ingredients}}
-                <input class="mb-2" type="text" id="ingrQuantity" name="ingrQuantity" placeholder="Gr."
-                    value="{{ingrQuantity}}">
-                {{/each}}
-            </div>
-            <div class="col-2 ingredientFieldMeasureUnit">
-                <label for="ingrMeasureUnit" class="form-label">Measure unit</label>
-                {{#each recipe.ingredients}}
-                <input class="mb-2" type="text" id="ingrMeasureUnit" name="ingrMeasureUnit" placeholder="Unit"
-                    value="{{ingrMeasureUnit}}">
-                {{/each}}
+        <div class="col-12 mt-3 ">
+            <div class="row">
+                <div class="col-6 mb-5 ">
+                    <label for="title" class="form-label fields d-block">Name</label>
+                    <input class="btn btn-light fields w-75" type="text" id="title" name="title"
+                        value="{{recipe.title}}">
+                </div>
+                <div class="col-6 mb-5">
+                    <label for="recipeImg" class="form-label fields d-block">Recipe Photo</label>
+                    <input class="btn btn-light form-control form-control-sm fields w-75" id="formFileSm" type="file"
+                        name="recipeImg">
+                </div>
             </div>
         </div>
-        <a class="btn btn-dark addButton mt-3 mb-3">+</a>
-        <div class="col-6">
-            <label for="description" class="form-label"></label>
-            <textarea class="form-control" id="description" rows="3" name="description"
-                placeholder="Description">{{recipe.description}}</textarea>
+        <div class="col-12 text-around">
+            <div class="row ingredient justify-content-between">
+                <div class="col-4 ingredientFieldName">
+                    <label for="ingrName" class="form-label fields">Ingredient</label>
+                    <div class="row ingredientsRow">
+                        {{#each recipe.ingredients}}
+                        <div class="col-12 ingredientsCol">
+                            <input class="btn btn-light mb-2 w-100" type="text" id="ingrName" name="ingrName"
+                                value="{{ingrName}}">
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+                <div class="col-4 ingredientFieldQuantity">
+                    <label for="ingrQuantity" class="form-label fields">Quantity</label>
+                    <div class="row quantityRow">
+                        {{#each recipe.ingredients}}
+                        <div class="col-12 quantityCol">
+                            <input class="btn btn-light mb-2 w-100" type="text" id="ingrQuantity" name="ingrQuantity"
+                                value="{{ingrQuantity}}">
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+                <div class="col-4">
+                    <label for="ingrMeasureUnit ingredientFieldMeasureUnit" class="form-label fields">Measure
+                        unit</label>
+                    <div class="row measureUnitRow">
+                        {{#each recipe.ingredients}}
+                        <div class="col-12 measureUnitCol">
+                            <input class="btn btn-light mb-2 w-100" type="text" id="ingrMeasureUnit"
+                                name="ingrMeasureUnit" placeholder="Unit" value="{{ingrMeasureUnit}}">
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
         </div>
-        <button class="btn btn-info mt-3" type="submit">Confirm</button>
-        <a class="btn btn-dark mt-3" href="/recipes/{{recipe._id}}/details">Cancel</a>
+        <div class="col-12">
+            <a class="btn btn-dark addButton mt-3 mb-3">+</a>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <label for="description" class="form-label"></label>
+                <textarea class="form-control description" id="description" rows="3" name="description"
+                    placeholder="Description">{{recipe.description}}</textarea>
+            </div>
+        </div>
+        <div>
+            {{errMessage}}
+        </div>
+        <button class="button-62 m-3" type="submit">Edit</button>
     </form>
 </div>
 <script src="/js/recipe.js"></script>

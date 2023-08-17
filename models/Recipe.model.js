@@ -44,7 +44,7 @@ const recipeSchema = new Schema(
         }],
         recipeImg: {
             type: String,
-            default: 'https://i.stack.imgur.com/l60Hf.png'
+            default: 'https://res.cloudinary.com/dbtmrinwa/image/upload/v1692193446/hv81ni4penqfhjdy7pog.png'
         },
         description: {
             type: String,

@@ -41,11 +41,12 @@
                      data-bs-toggle="dropdown" aria-expanded="false">
                      Recipes
                   </a>
-                  <ul class="dropdown-menu bg-white" aria-labelledby="navbarDropdown">
+                  <ul class="dropdown-menu bg-white button-62 button-64" aria-labelledby="navbarDropdown"
+                     style="z-index: 1;">
                      <li><a class="dropdown-item" href="/recipes">All Recipes</a></li>
                      <li><a class="dropdown-item" href="/recipes/create">New recipe</a></li>
-                     <li><a class="dropdown-item" href="/user/my-recipes">My recipes</a></li>
-                     <li><a class="dropdown-item" href="/recipes/favorites">Favorite recipes</a>
+                     <li><a class="dropdown-item" href="/recipes/{{loggedUser._id}}">My recipes</a></li>
+                     <li><a class="dropdown-item" href="/recipes/{{loggedUser._id}}/favorites">Favorite recipes</a>
                   </ul>
                </li>
                {{/if}}
@@ -61,7 +62,7 @@
                {{/unless}}
                {{#if loggedUser}}
                <li class="nav-item">
-                  <a class="nav-link active" href="/user/profile">Hi {{loggedUser.username}}!</a>
+                  <a class="nav-link active" href="/user/{{loggedUser._id}}">Hi {{loggedUser.username}}!</a>
                </li>
                <li class="nav-item">
                   <a class="nav-link active" href="/auth/logout">Logout</a>
