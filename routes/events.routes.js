@@ -3,27 +3,37 @@ const router = express.Router();
 const Event = require("../models/Event.model")
 const { isLoggedIn, checkRoles } = require('../middlewares/route-guard');
 const uploaderMiddleware = require('../middlewares/uploader')
+const { formatDate, formatTime } = require('../utils/date-utils')
 
 
 router.get("/", (req, res) => {
     const loggedUser = req.session.currentUser
-
+    let isPM = false
+    if (req.session.currentUser.role === 'ADMIN') {
+        isPM = true
+    }
     Event
         .find()
         .then(events => {
-            res.render("events/list", { loggedUser, events });
+            res.render("events/list", { loggedUser, events, isPM });
         });
 })
 
 router.get("/:id/info", isLoggedIn, (req, res, next) => {
     const { id: event_id } = req.params
     const loggedUser = req.session.currentUser
+    //poner el utils de la fecha y de la hora
 
     Event
         .findById(event_id)
-        .then(event => res.render('events/info', { loggedUser, event }))
-        .catch(err => console.log(err))
+        .then(event => {
+            event.formattedDate = formatDate(event.date)
+            event.formattedTime = formatTime(event.date)
+            res.render('events/info', { loggedUser, event })
+
+        }).catch(err => console.log(err))
 })
+
 
 
 

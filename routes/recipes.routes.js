@@ -152,7 +152,7 @@ router.get("/:id/details", isLoggedIn, (req, res, next) => {
         .findById(recipe_id)
         .populate('author')
         .then(recipe => {
-            recipe.favorites.forEach((eachFavorite) => {
+            recipe.ratings.forEach((eachFavorite) => {
                 if (eachFavorite.userId.includes(req.session.currentUser._id)) {
                     isVoted = true
                 }
@@ -270,10 +270,10 @@ router.get("/:id/delete", isLoggedIn, (req, res, next) => {
 
 router.post('/:id/score', isLoggedIn, (req, res) => {
     const { id: recipe_id } = req.params
-    const favorites = { score: req.body.score, userId: req.session.currentUser._id }
+    const ratings = { score: req.body.score, userId: req.session.currentUser._id }
 
     Recipe
-        .findByIdAndUpdate(recipe_id, { $push: { favorites: favorites } })
+        .findByIdAndUpdate(recipe_id, { $push: { ratings: ratings } })
         .then(() => res.redirect(`/recipes/${recipe_id}/details`))
         .catch(err => console.log(err))
 })

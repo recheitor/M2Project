@@ -31,6 +31,11 @@
                <li class="nav-item">
                   <a class="nav-link active" href="/restaurants">Restaurants</a>
                </li>
+               {{#if loggedUser}}
+               <li class="nav-item">
+                  <a class="nav-link active" href="/events">Events list</a>
+               </li>
+               {{/if}}
                <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
                      data-bs-toggle="dropdown" aria-expanded="false">
@@ -44,6 +49,7 @@
                   </ul>
                </li>
             </ul>
+
             <div class="col-6 ">
                <ul class="navbar-nav justify-content-end me-5">
                   {{#unless loggedUser}}
