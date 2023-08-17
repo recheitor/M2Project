@@ -27,9 +27,7 @@ router.get("/", isLoggedIn, (req, res, next) => {
             .populate('author')
             .then(recipes => res.render("recipes/recipes-list", { recipes }))
             .catch(err => next(err))
-
     }
-
 })
 
 router.get("/:user_id/favorites", isLoggedIn, (req, res, next) => {
