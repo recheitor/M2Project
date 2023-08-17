@@ -1,0 +1,44 @@
+<h3>Edit recipe</h3>
+<hr>
+<div class="row">
+    <form action="/recipes/{{recipe._id}}/edit" method="POST" enctype="multipart/form-data">
+        <div class="col-6">
+            <label for="title" class="form-label">Nombre</label>
+            <input type="text" id="title" name="title" value="{{recipe.title}}">
+            <br>
+            <label for="recipeImg" class="form-label"></label>
+            <input class="form-control form-control-sm mb-3" id="formFileSm" type="file" name="recipeImg">
+        </div>
+        <div class="row">
+            <div class="col-3 ingredientFieldName">
+                <label for="ingrName" class="form-label">Ingredient</label>
+                {{#each recipe.ingredients}}
+                <input class="mb-2" type="text" id="ingrName" name="ingrName" placeholder="Name" value="{{ingrName}}">
+                {{/each}}
+            </div>
+            <div class="col-3 ingredientFieldQuantity">
+                <label for="ingrQuantity" class="form-label">Quantity</label>
+                {{#each recipe.ingredients}}
+                <input class="mb-2" type="text" id="ingrQuantity" name="ingrQuantity" placeholder="Gr."
+                    value="{{ingrQuantity}}">
+                {{/each}}
+            </div>
+            <div class="col-2 ingredientFieldMeasureUnit">
+                <label for="ingrMeasureUnit" class="form-label">Measure unit</label>
+                {{#each recipe.ingredients}}
+                <input class="mb-2" type="text" id="ingrMeasureUnit" name="ingrMeasureUnit" placeholder="Unit"
+                    value="{{ingrMeasureUnit}}">
+                {{/each}}
+            </div>
+        </div>
+        <a class="btn btn-dark addButton mt-3 mb-3">+</a>
+        <div class="col-6">
+            <label for="description" class="form-label"></label>
+            <textarea class="form-control" id="description" rows="3" name="description"
+                placeholder="Description">{{recipe.description}}</textarea>
+        </div>
+        <button class="btn btn-info mt-3" type="submit">Confirm</button>
+        <a class="btn btn-dark mt-3" href="/recipes/{{recipe._id}}/details">Cancel</a>
+    </form>
+</div>
+<script src="/js/recipe.js"></script>
