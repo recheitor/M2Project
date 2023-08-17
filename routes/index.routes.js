@@ -15,8 +15,6 @@ router.get("/", (req, res, next) => {
   res.render("index", { loggedUser })
 })
 
-
-
 router.get("/restaurants", (req, res, next) => {
 
   if (req.session.currentUser) {
@@ -24,7 +22,6 @@ router.get("/restaurants", (req, res, next) => {
     res.render("restaurants", { loggedUser });
   } else {
     res.render("restaurants");
-
   }
 });
 module.exports = router;

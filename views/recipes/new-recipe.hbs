@@ -3,40 +3,58 @@
 <h2 class="header text-center mt-3">New recipe</h2>
 <div class="row card justify-content-center text-center">
     <form action="/recipes/create" method="POST" enctype="multipart/form-data">
-        <div class="col-12 mt-3">
-            <label for="title" class="form-label fields">Nombre</label>
-            <input class="d-inline me-5 fields" type="text" id="title" name="title">
-
-            <label for="recipeImg" class="form-label ms-5 fields">Recipe Photo</label>
-            <input class="form-control form-control-sm mb-3 w-25 d-inline fields" id="formFileSm" type="file"
-                name="recipeImg">
+        <div class="col-12 mt-3 ">
+            <div class="row">
+                <div class="col-6 mb-5 ">
+                    <label for="title" class="form-label fields d-block">Name</label>
+                    <input class="btn btn-light fields w-75" type="text" id="title" name="title">
+                </div>
+                <div class="col-6 mb-5">
+                    <label for="recipeImg" class="form-label fields d-block">Recipe Photo</label>
+                    <input class="btn btn-light form-control form-control-sm fields w-75" id="formFileSm" type="file"
+                        name="recipeImg">
+                </div>
+            </div>
         </div>
-        <div class="col-6">
+        <div class="col-12 text-around">
             <div class="row ingredient justify-content-between">
-
                 <div class="col-4 ingredientFieldName">
                     <label for="ingrName" class="form-label fields">Ingredient</label>
-                    <input class="mb-2 w-75" type="text" id="ingrName" name="ingrName" placeholder="Name">
+                    <div class="row ingredientsRow">
+                        <div class="col-12 ingredientsCol">
+                            <input class="btn btn-light mb-2 w-100" type="text" id="ingrName" name="ingrName"
+                                placeholder="Name">
+                        </div>
+                    </div>
                 </div>
                 <div class="col-4 ingredientFieldQuantity">
                     <label for="ingrQuantity" class="form-label fields">Quantity</label>
-                    <input class="mb-2 w-75" type="text" id="ingrQuantity" name="ingrQuantity" placeholder="Quantity">
+                    <div class="row quantityRow">
+                        <div class="col-12 quantityCol">
+                            <input class="btn btn-light mb-2 w-100" type="text" id="ingrQuantity" name="ingrQuantity"
+                                placeholder="Quantity">
+                        </div>
+                    </div>
                 </div>
-                <div class="col-4 ingredientFieldMeasureUnit">
-                    <label for="ingrMeasureUnit" class="form-label fields">Measure unit</label>
-                    <select class="form-select w-75" aria-label="Default select example" id="ingrMeasureUnit"
-                        name="ingrMeasureUnit">
-                        <option selected value="gr">Gr</option>
-                        <option value="ml">Ml</option>
-                        <option value="unit">Units</option>
-                    </select>
+                <div class="col-4">
+                    <label for="ingrMeasureUnit ingredientFieldMeasureUnit" class="form-label fields">Measure
+                        unit</label>
+                    <div class="row measureUnitRow">
+                        <div class="col-12 measureUnitCol">
+                            <select class="btn btn-light mb-2 form-select w-100" aria-label="Default select example"
+                                id="ingrMeasureUnit" name="ingrMeasureUnit">
+                                <option selected value="gr">Gr</option>
+                                <option value="ml">Ml</option>
+                                <option value="unit">Units</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-
             </div>
         </div>
-
-
-        <a class="btn btn-dark addButton mt-3 mb-3">+</a>
+        <div class="col-12">
+            <a class="btn btn-dark addButton mt-3 mb-3">+</a>
+        </div>
         <div class="col-6">
             <label for="description" class="form-label"></label>
             <textarea class="form-control" id="description" rows="3" name="description"
@@ -44,7 +62,6 @@
         </div>
         <div>
             {{errMessage}}
-
         </div>
         <button class="btn btn-info mt-3" type="submit">Create</button>
     </form>

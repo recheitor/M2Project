@@ -62,7 +62,6 @@ router.get("/favorites", isLoggedIn, (req, res) => {
             const favoritesId = favorites.favs.map(favs => favs.id)
             return Recipe.find({ _id: favoritesId }).populate('author')
         })
-
         .then((recipes) => {
             res.render("recipes/recipes-list", { loggedUser, recipes, myFavoriteRecipes })
         }
@@ -78,7 +77,6 @@ router.post('/create', isLoggedIn, uploaderMiddleware.single('recipeImg'), (req,
     const loggedUser = req.session.currentUser
     let ingredients
     let requiredFields = true
-
 
     if (!req.body.title) {
         return res.render("recipes/new-recipe", { loggedUser, errMessage: 'Fill Title Field' })
@@ -112,7 +110,6 @@ router.post('/create', isLoggedIn, uploaderMiddleware.single('recipeImg'), (req,
         return res.render("recipes/new-recipe", { loggedUser, errMessage: 'All required fields should be filled' })
     }
 
-
     if (typeof req.body.ingrName !== 'string') {
         ingredients = req.body.ingrName.map((eachIngr, idx) => {
             return ({ ingrName: eachIngr, ingrQuantity: req.body.ingrQuantity[idx], ingrMeasureUnit: req.body.ingrMeasureUnit[idx] })
@@ -141,7 +138,6 @@ router.post('/create', isLoggedIn, uploaderMiddleware.single('recipeImg'), (req,
         })
         .then(() => res.redirect('/recipes'))
         .catch(err => next())
-
 })
 
 router.get("/:id/details", isLoggedIn, (req, res, next) => {
@@ -156,7 +152,6 @@ router.get("/:id/details", isLoggedIn, (req, res, next) => {
                 if (eachFavorite.userId.includes(req.session.currentUser._id)) {
                     isVoted = true
                 }
-
             })
             recipe.rating = ratingScore(recipe)
 
@@ -242,7 +237,6 @@ router.post("/:id/edit", isLoggedIn, uploaderMiddleware.single('recipeImg'), (re
         const { path: recipeImg } = req.file
         newRecipeData.recipeImg = recipeImg
     }
-
 
     edamamApi
         .getIngredient(req.body.ingrQuantity, req.body.ingrMeasureUnit, req.body.ingrName)

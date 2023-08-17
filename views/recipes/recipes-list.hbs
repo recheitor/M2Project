@@ -14,8 +14,6 @@
         <h2 class="header">MY FAVORITE RECIPES</h2>
         {{/if}}
     </div>
-
-
     <div class="row justify-content-center text-center">
         <div class="dropdown m-4">
             <button class=" dropdown-toggle button-62" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
@@ -29,7 +27,6 @@
                 <li><a class="dropdown-item" href="/recipes?sort=ingrProtein">Protein</a></li>
             </ul>
         </div>
-
         {{#each recipes}}
         <div class="col-5 card text-center m-2 pt-3">
             <h2>{{title}}</h2>
@@ -45,8 +42,6 @@
                         </li>
                         {{/each}}
                     </ul>
-
-
                 </div>
                 <div class="col-4 text-end mb-3">
                     <a href="{{recipeImg}}"><img class='img-responsive w-100 recipeImg' src="{{recipeImg}}"
@@ -62,9 +57,6 @@
                         {{nutriScore.ingrProtein}}g Protein.
                     </h6>
                 </div>
-
-
-
                 <div class="col-6">
                     <a href="/recipes/{{_id}}/details" class=" button-62">Details</a>
                     {{#each author}}

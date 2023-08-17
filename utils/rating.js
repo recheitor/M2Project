@@ -5,7 +5,6 @@ const ratingScore = (recipe) => {
     })
     return Math.round((rating / recipe.ratings.length) * 10) / 10
 }
-
 module.exports = {
     ratingScore
 }
