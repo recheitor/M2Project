@@ -13,4 +13,7 @@ module.exports = app => {
 
     const eventsRoutes = require("./events.routes")
     app.use("/events", eventsRoutes);
+
+    const apiRoutes = require("./api.routes")
+    app.use("/api", apiRoutes)
 }

@@ -26,7 +26,7 @@ const eventSchema = new Schema(
                 type: String,
                 default: 'Point'
             },
-            coordinates: {
+            coordenates: {
                 type: [Number]
             }
         },
@@ -39,6 +39,8 @@ const eventSchema = new Schema(
         timestamps: true
     }
 )
+
+eventSchema.index({ location: '2dsphere' })
 
 
 module.exports = model('Event', eventSchema)

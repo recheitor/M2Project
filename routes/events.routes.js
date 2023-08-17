@@ -4,9 +4,10 @@ const Event = require("../models/Event.model")
 const { isLoggedIn, checkRoles } = require('../middlewares/route-guard');
 const uploaderMiddleware = require('../middlewares/uploader')
 const { formatDate, formatTime } = require('../utils/date-utils')
+const geocodingApi = require('../services/geocode.service')
 
 
-router.get("/", (req, res) => {
+router.get("/", (req, res, next) => {
     let isAdmin = false
     if (req.session.currentUser.role === 'ADMIN') {
         isAdmin = true
@@ -15,20 +16,31 @@ router.get("/", (req, res) => {
         .find()
         .then(events => {
             res.render("events/list", { events, isAdmin });
-        });
+        })
+        .catch(err => next(err))
 })
 
 
 router.get("/:id/info", isLoggedIn, (req, res, next) => {
     const { id: event_id } = req.params
+    const loggedUser = req.session.currentUser
+
     Event
         .findById(event_id)
+        .populate('attender')
         .then(event => {
             event.formattedDate = formatDate(event.date)
             event.formattedTime = formatTime(event.date)
-            res.render('events/info', { event })
 
-        }).catch(err => console.log(err))
+            let isJoined = false
+            event.attender.forEach(eachAtt => {
+                if (eachAtt._id.toHexString() === loggedUser._id) {
+                    isJoined = true
+                }
+            })
+            res.render('events/info', { event, isJoined })
+        })
+        .catch(err => next(err))
 })
 
 
@@ -37,27 +49,26 @@ router.get("/add", isLoggedIn, (req, res) => {
 })
 
 router.post("/add", isLoggedIn, uploaderMiddleware.single('icon'), (req, res, next) => {
+    const { title, icon, description, type, address, date } = req.body
 
-    const { title, icon, description, type, address, latitude, longitude, date } = req.body
-
-    const newUserData = { title, icon, description, type, address, latitude, longitude, date }
-
-    if (req.file) {
-        const { path: icon } = req.file
-        newUserData.icon = icon
-    }
-
-    Event
-        .create({ title, icon, description, type, address, date })
-        .then(() => res.redirect('/events'))
+    geocodingApi
+        .getCoordenates(address)
+        .then(response => {
+            const location = {
+                type: 'Point',
+                coordenates: [response.data.results[0].geometry.location.lng, response.data.results[0].geometry.location.lat]
+            }
+            return location
+        })
+        .then(location => Event
+            .create({ title, icon, description, type, address, location, date })
+            .then(() => res.redirect('/events')))
         .catch(err => next(err))
-
 })
 
 
-router.get("/:id/edit", isLoggedIn, (req, res) => {
+router.get("/:id/edit", isLoggedIn, (req, res, next) => {
     const { id: event_id } = req.params
-
 
     Event
         .findById(event_id)
@@ -66,7 +77,7 @@ router.get("/:id/edit", isLoggedIn, (req, res) => {
 })
 
 
-router.post("/:id/edit", isLoggedIn, uploaderMiddleware.single('icon'), (req, res) => {
+router.post("/:id/edit", isLoggedIn, uploaderMiddleware.single('icon'), (req, res, next) => {
     const { id: event_id } = req.params
     const { title, icon, description, type, address, latitude, longitude, date } = req.body
     const newUserData = { title, icon, description, type, address, location, date }
@@ -83,7 +94,7 @@ router.post("/:id/edit", isLoggedIn, uploaderMiddleware.single('icon'), (req, re
 })
 
 
-router.get("/:id/delete", isLoggedIn, (req, res) => {
+router.get("/:id/delete", isLoggedIn, (req, res, next) => {
     const { id: event_id } = req.params
 
     Event
@@ -102,6 +113,14 @@ router.get("/:id/join-event", isLoggedIn, (req, res, next) => {
         .catch(err => next(err))
 })
 
+router.get("/:id/unjoin-event", isLoggedIn, (req, res, next) => {
+    const { id: event_id } = req.params
+    const loggedUser = req.session.currentUser
+    Event
+        .findByIdAndUpdate(event_id, { $pull: { attender: loggedUser._id } })
+        .then(() => res.redirect(`/events/${event_id}/info`))
+        .catch(err => next(err))
+})
 
 
 
