@@ -7,35 +7,33 @@ const { formatDate, formatTime } = require('../utils/date-utils')
 
 
 router.get("/", (req, res) => {
-    const loggedUser = req.session.currentUser
-    let isPM = false
+    let isAdmin = false
     if (req.session.currentUser.role === 'ADMIN') {
-        isPM = true
+        isAdmin = true
     }
     Event
         .find()
         .then(events => {
-            res.render("events/list", { loggedUser, events, isPM });
+            res.render("events/list", { events, isAdmin });
         });
 })
 
 
 router.get("/:id/info", isLoggedIn, (req, res, next) => {
     const { id: event_id } = req.params
-    const loggedUser = req.session.currentUser
     Event
         .findById(event_id)
         .then(event => {
             event.formattedDate = formatDate(event.date)
             event.formattedTime = formatTime(event.date)
-            res.render('events/info', { loggedUser, event })
+            res.render('events/info', { event })
 
         }).catch(err => console.log(err))
 })
 
 
 router.get("/add", isLoggedIn, (req, res) => {
-    res.render("events/addevent", { loggedUser: req.session.currentUser })
+    res.render("events/addevent")
 })
 
 router.post("/add", isLoggedIn, uploaderMiddleware.single('icon'), (req, res, next) => {
@@ -60,11 +58,10 @@ router.post("/add", isLoggedIn, uploaderMiddleware.single('icon'), (req, res, ne
 router.get("/:id/edit", isLoggedIn, (req, res) => {
     const { id: event_id } = req.params
 
-    const loggedUser = req.session.currentUser
 
     Event
         .findById(event_id)
-        .then(event => res.render("events/editevent", { loggedUser, event }))
+        .then(event => res.render("events/editevent", { event }))
         .catch(err => next(err))
 })
 

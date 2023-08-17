@@ -3,6 +3,7 @@ const axios = require('axios')
 class EdamamApiHandler {
 
     getIngredient(...ingredients) {
+
         let ingredient = '120gr of pizza dough'
 
         if (typeof ingredients[0] === 'string') {

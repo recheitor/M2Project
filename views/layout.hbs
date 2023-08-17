@@ -14,19 +14,20 @@
    <link rel="stylesheet" href="/stylesheets/style.css" />
 
 
-
 </head>
 
 <body>
+
    <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid ">
-         <a href="/"><img src="https://res.cloudinary.com/dbtmrinwa/image/upload/f_auto,q_auto/utevtwzlkqh1fg0mhqre"
-               alt="" style="height:70px;filter: brightness(100%)"></a>
+
          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
          </button>
          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <a href="/"><img src="https://res.cloudinary.com/dbtmrinwa/image/upload/f_auto,q_auto/utevtwzlkqh1fg0mhqre"
+                  alt="" style="height:70px;filter: brightness(100%)"></a>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                <li class="nav-item">
                   <a class="nav-link active" href="/restaurants">Restaurants</a>
@@ -35,7 +36,6 @@
                <li class="nav-item">
                   <a class="nav-link active" href="/events">Events list</a>
                </li>
-               {{/if}}
                <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
                      data-bs-toggle="dropdown" aria-expanded="false">
@@ -48,28 +48,28 @@
                      <li><a class="dropdown-item" href="/recipes/favorites">Favorite recipes</a>
                   </ul>
                </li>
+               {{/if}}
             </ul>
-            <div class="col-6 ">
-               <ul class="navbar-nav justify-content-end me-5">
-                  {{#unless loggedUser}}
-                  <li class="nav-item">
-                     <a class="nav-link active" href="/auth/sign-up">Sign up</a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link active" href="/auth/login">Login</a>
-                  </li>
-                  {{/unless}}
-                  {{#if loggedUser}}
-                  <li class="nav-item">
-                     <a class="nav-link active" href="/user/profile">Hi {{loggedUser.username}}!</a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link active" href="/auth/logout">Logout</a>
-                  </li>
-                  {{/if}}
-               </ul>
-            </div>
+            <ul class="navbar-nav justify-content-end me-5">
+               {{#unless loggedUser}}
+               <li class="nav-item">
+                  <a class="nav-link active" href="/auth/sign-up">Sign up</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link active" href="/auth/login">Login</a>
+               </li>
+               {{/unless}}
+               {{#if loggedUser}}
+               <li class="nav-item">
+                  <a class="nav-link active" href="/user/profile">Hi {{loggedUser.username}}!</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link active" href="/auth/logout">Logout</a>
+               </li>
+               {{/if}}
+            </ul>
          </div>
+      </div>
    </nav>
 
    <div class="container">

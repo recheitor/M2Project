@@ -11,7 +11,7 @@
     <a class="btn btn-dark" href="/user/{{loggedUser._id}}/edit">Edit</a>
     <a class="btn btn-dark" href="/user/my-recipes">My recipes</a>
     <a class="btn btn-dark" href="/recipes/favorites">My Favorite recipes</a>
-    {{#if isPM}}
+    {{#if isAdmin}}
     <a class="btn btn-dark" href="/user/list">View all users</a>
     {{/if}}
     <hr>

@@ -7,52 +7,32 @@ const Recipe = require("../models/Recipe.model");
 const edamamApi = require('../services/edamam-service');
 const { ratingScore } = require('../utils/rating')
 
-router.get("/", isLoggedIn, (req, res) => {
-    const loggedUser = req.session.currentUser
-    if (req.query.sort === 'ingrKcal') {
+router.get("/", isLoggedIn, (req, res, next) => {
+
+    if (req.query.sort) {
+
+        const sortingQuery = `nutriScore.${req.query.sort}`
+
         Recipe
             .find()
-            .sort({ 'nutriScore.ingrKcal': 1 })
+            .sort({ [sortingQuery]: 1 })
             .populate('author')
-            .then(recipes => {
-                res.render("recipes/recipes-list", { loggedUser, recipes });
-            })
-    } else if (req.query.sort === 'ingrCarbs') {
-        Recipe
-            .find()
-            .sort({ 'nutriScore.ingrCarbs': 1 })
-            .populate('author')
-            .then(recipes => {
-                res.render("recipes/recipes-list", { loggedUser, recipes });
-            })
-    } else if (req.query.sort === 'ingrFat') {
-        Recipe
-            .find()
-            .sort({ 'nutriScore.ingrFat': 1 })
-            .populate('author')
-            .then(recipes => {
-                res.render("recipes/recipes-list", { loggedUser, recipes });
-            })
-    } else if (req.query.sort === 'ingrProtein') {
-        Recipe
-            .find()
-            .sort({ 'nutriScore.ingrProtein': -1 })
-            .populate('author')
-            .then(recipes => {
-                res.render("recipes/recipes-list", { loggedUser, recipes });
-            })
+            .then(recipes => res.render("recipes/recipes-list", { recipes }))
+            .catch(err => next(err))
+
     } else {
+
         Recipe
             .find()
-            .sort()
             .populate('author')
-            .then(recipes => {
-                res.render("recipes/recipes-list", { loggedUser, recipes });
-            })
+            .then(recipes => res.render("recipes/recipes-list", { recipes }))
+            .catch(err => next(err))
+
     }
+
 })
 
-router.get("/favorites", isLoggedIn, (req, res) => {
+router.get("/favorites", isLoggedIn, (req, res, next) => {
     const loggedUser = req.session.currentUser
     const myFavoriteRecipes = true
     User
@@ -63,23 +43,24 @@ router.get("/favorites", isLoggedIn, (req, res) => {
             return Recipe.find({ _id: favoritesId }).populate('author')
         })
         .then((recipes) => {
-            res.render("recipes/recipes-list", { loggedUser, recipes, myFavoriteRecipes })
-        }
-        )
+            res.render("recipes/recipes-list", { recipes, myFavoriteRecipes })
+        })
+        .catch(err => next(err))
+
 })
 
 router.get("/create", isLoggedIn, (req, res) => {
-    res.render("recipes/new-recipe", { loggedUser: req.session.currentUser })
+    res.render("recipes/new-recipe")
 })
 
 router.post('/create', isLoggedIn, uploaderMiddleware.single('recipeImg'), (req, res, next) => {
-    const { title, description } = req.body
     const loggedUser = req.session.currentUser
+    const { title, description } = req.body
     let ingredients
     let requiredFields = true
 
     if (!req.body.title) {
-        return res.render("recipes/new-recipe", { loggedUser, errMessage: 'Fill Title Field' })
+        return res.render("recipes/new-recipe", { errMessage: 'Fill Title Field' })
     }
 
     if (typeof req.body.ingrName !== 'string' || typeof req.body.ingrQuantity !== 'string') {
@@ -97,17 +78,17 @@ router.post('/create', isLoggedIn, uploaderMiddleware.single('recipeImg'), (req,
                 requiredFields = false
             }
 
-
         })
+
     } else if (!req.body.ingrName) {
-        return res.render("recipes/new-recipe", { loggedUser, errMessage: 'Fill Ingredient field' })
+        return res.render("recipes/new-recipe", { errMessage: 'Fill Ingredient field' })
     } else if (!req.body.ingrQuantity) {
-        return res.render("recipes/new-recipe", { loggedUser, errMessage: 'Fill Quantity field' })
+        return res.render("recipes/new-recipe", { errMessage: 'Fill Quantity field' })
     } else if (!/\d/.test(req.body.ingrQuantity)) {
-        return res.render("recipes/new-recipe", { loggedUser, errMessage: 'Quantity field should contain a number' })
+        return res.render("recipes/new-recipe", { errMessage: 'Quantity field should contain a number' })
     }
     if (!requiredFields) {
-        return res.render("recipes/new-recipe", { loggedUser, errMessage: 'All required fields should be filled' })
+        return res.render("recipes/new-recipe", { errMessage: 'All required fields should be filled' })
     }
 
     if (typeof req.body.ingrName !== 'string') {
@@ -164,10 +145,10 @@ router.get("/:id/details", isLoggedIn, (req, res, next) => {
 
             if (req.session.currentUser._id === recipe.author[0].id || req.session.currentUser.role === 'ADMIN') {
                 isOwner = true
-                res.render("recipes/recipe-details", { loggedUser: req.session.currentUser, recipe, isOwner, isVoted, isFavorite })
+                res.render("recipes/recipe-details", { recipe, isOwner, isVoted, isFavorite })
                 return
             }
-            res.render("recipes/recipe-details", { loggedUser: req.session.currentUser, recipe, isVoted, isFavorite })
+            res.render("recipes/recipe-details", { recipe, isVoted, isFavorite })
         })
         .catch(err => next(err))
 })
@@ -214,7 +195,7 @@ router.get("/:id/edit", isLoggedIn, (req, res, next) => {
 
     Recipe
         .findById(recipe_id)
-        .then(recipe => res.render("recipes/edit-recipe", { loggedUser: req.session.currentUser, recipe }))
+        .then(recipe => res.render("recipes/edit-recipe", { recipe }))
         .catch(err => next(err))
 })
 
@@ -240,7 +221,6 @@ router.post("/:id/edit", isLoggedIn, uploaderMiddleware.single('recipeImg'), (re
 
     edamamApi
         .getIngredient(req.body.ingrQuantity, req.body.ingrMeasureUnit, req.body.ingrName)
-
         .then(apiResponse => {
             newRecipeData.nutriScore = {
                 ingrKcal: Math.round(apiResponse.data.totalNutrients.ENERC_KCAL.quantity),
@@ -251,7 +231,7 @@ router.post("/:id/edit", isLoggedIn, uploaderMiddleware.single('recipeImg'), (re
             return Recipe.findByIdAndUpdate(recipe_id, newRecipeData)
         })
         .then(() => res.redirect(`/recipes/${recipe_id}/details`))
-        .catch(err => next())
+        .catch(err => next(err))
 })
 
 router.get("/:id/delete", isLoggedIn, (req, res, next) => {
@@ -262,14 +242,18 @@ router.get("/:id/delete", isLoggedIn, (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.post('/:id/score', isLoggedIn, (req, res) => {
+router.post('/:id/score', isLoggedIn, (req, res, next) => {
+
     const { id: recipe_id } = req.params
-    const ratings = { score: req.body.score, userId: req.session.currentUser._id }
+    const { score } = req.body
+    const { _id: userId } = req.session.currentUser
+
+    const ratings = { score, userId }
 
     Recipe
-        .findByIdAndUpdate(recipe_id, { $push: { ratings: ratings } })
+        .findByIdAndUpdate(recipe_id, { $push: { ratings } })
         .then(() => res.redirect(`/recipes/${recipe_id}/details`))
-        .catch(err => console.log(err))
+        .catch(err => next(err))
 })
 
 module.exports = router
