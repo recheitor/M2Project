@@ -22,23 +22,12 @@ router.get("/", (req, res) => {
 router.get("/:id/info", isLoggedIn, (req, res, next) => {
     const { id: event_id } = req.params
     const loggedUser = req.session.currentUser
+    //poner el utils de la fecha y de la ora
 
     Event
         .findById(event_id)
-        .populate('attender')
-        .then(event => {
-            event.formattedDate = formatDate(event.date)
-            event.formattedTime = formatTime(event.date)
-
-            let isJoined = false
-            event.attender.forEach(eachAtt => {
-                if (eachAtt._id.toHexString() === loggedUser._id) {
-                    isJoined = true
-                }
-            })
-            res.render('events/info', { event, isJoined })
-        })
-        .catch(err => next(err))
+        .then(event => res.render('events/info', { loggedUser, event }))
+        .catch(err => console.log(err))
 })
 
 
@@ -48,20 +37,22 @@ router.get("/add", isLoggedIn, (req, res) => {
 })
 
 router.post("/add", isLoggedIn, uploaderMiddleware.single('icon'), (req, res, next) => {
-    const { title, icon, description, type, address, date } = req.body
 
-    geocodingApi
-        .getCoordenates(address)
-        .then(response => {
-            const location = {
-                type: 'Point',
-                coordenates: [response.data.results[0].geometry.location.lng, response.data.results[0].geometry.location.lat]
-            }
-            return location
-        })
-        .then(location => Event
-            .create({ title, icon, description, type, address, location, date })
-            .then(() => res.redirect('/events')))
+    const { title, icon, description, type, address, latitude, longitude, date } = req.body
+
+    const newUserData = { title, icon, description, type, address, latitude, longitude, date }
+    // const location = {
+    //     type: 'Point',
+    //     coordinates: [longitude, latitude]
+    // }
+    if (req.file) {
+        const { path: icon } = req.file
+        newUserData.icon = icon
+    }
+
+    Event
+        .create({ title, icon, description, type, address, date })
+        .then(() => res.redirect('/events'))
         .catch(err => next(err))
 
 })
@@ -81,6 +72,10 @@ router.get("/:id/edit", isLoggedIn, (req, res) => {
 router.post("/:id/edit", isLoggedIn, uploaderMiddleware.single('icon'), (req, res) => {
     const { id: event_id } = req.params
     const { title, icon, description, type, address, latitude, longitude, date } = req.body
+    // const location = {
+    //     type: 'Point',
+    //     coordinates: [longitude, latitude]
+    // }
     const newUserData = { title, icon, description, type, address, location, date }
 
     if (req.file) {
