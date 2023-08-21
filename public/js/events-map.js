@@ -21,8 +21,8 @@ function getPlacesData() {
 function printMarkers(events) {
     events.forEach(elm => {
         const position = {
-            lat: elm.location.coordenates[1],
-            lng: elm.location.coordenates[0]
+            lat: elm.location.coordinates[1],
+            lng: elm.location.coordinates[0]
         }
         new google.maps.Marker({
             position,

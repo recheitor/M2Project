@@ -63,7 +63,7 @@ router.post("/add", isLoggedIn, uploaderMiddleware.single('icon'), (req, res, ne
         .then(response => {
             location = {
                 type: 'Point',
-                coordenates: [response.data.results[0].geometry.location.lng, response.data.results[0].geometry.location.lat]
+                coordinates: [response.data.results[0].geometry.location.lng, response.data.results[0].geometry.location.lat]
             }
             return eventData.location = location
         })
