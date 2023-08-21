@@ -52,24 +52,30 @@ router.get("/add", isLoggedIn, (req, res) => {
 })
 
 router.post("/add", isLoggedIn, uploaderMiddleware.single('icon'), (req, res, next) => {
+
     const { title, description, type, address, date } = req.body
     const eventData = { title, description, type, address, date }
+
     if (req.file) {
         const { path: icon } = req.file
         eventData.icon = icon
     }
+
     geocodingApi
         .getCoordenates(address)
         .then(response => {
-            location = {
+            const locationObj = {
                 type: 'Point',
-                coordenates: [response.data.results[0].geometry.location.lng, response.data.results[0].geometry.location.lat]
+                coordinates: [response.data.results[0].geometry.location.lng, response.data.results[0].geometry.location.lat]
             }
-            return eventData.location = location
+            eventData.location = locationObj
+            console.log('----', eventData)
+
+            Event
+                .create(eventData)
+                .then(() => res.redirect('/events'))
+                .catch(err => next(err))
         })
-        .then(() => Event
-            .create(eventData)
-            .then(() => res.redirect('/events')))
         .catch(err => next(err))
 })
 

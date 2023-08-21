@@ -8,7 +8,7 @@ const eventSchema = new Schema(
         },
         icon: {
             type: String,
-            default: 'https://i.stack.imgur.com/l60Hf.png'
+            default: 'https://res.cloudinary.com/dbtmrinwa/image/upload/v1692193446/hv81ni4penqfhjdy7pog.png'
         },
         description: {
             type: String,
@@ -26,7 +26,7 @@ const eventSchema = new Schema(
                 type: String,
                 default: 'Point'
             },
-            coordenates: {
+            coordinates: {
                 type: [Number]
             }
         },

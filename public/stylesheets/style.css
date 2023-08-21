@@ -31,7 +31,10 @@
     z-index: -1;
 }
 
-
+.avatar {
+    width: 50px;
+    border-radius: 25px;
+}
 
 h2,
 .createdBy,
